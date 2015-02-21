@@ -78,17 +78,11 @@ class Thumb(models.Model):
     """
     channel = models.ForeignKey(Channel)
     datetime = models.DateTimeField(null=False)
+    filename = models.CharField(max_length=200)
 
     def filepath(self):
         """Return file path where this thumb should live."""
-        # return value example:
-        # '/thumbs/1/20150215/1600/012.jpg'
-
-        basedirs = self.datetime.strftime('%Y%m%d_%H%M').split('_')
-        # append thumb name
-        basedirs.append('{:03d}'.format(self.datetime.second))
-        fp = os.path.join(self.channel.base_dir(), *basedirs)
-        return fp
+        return self.filename
 
     def exists(self):
         return os.path.exists(self.filepath())
