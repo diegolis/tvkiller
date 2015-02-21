@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 import os
 
@@ -31,7 +32,7 @@ class BaseVideo(models.Model):
     channel = models.ForeignKey(Channel)
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
-    filename = models.CharField(max_length=200)
+    filename = models.FileField()
 
     def duration(self):
         """ Returns deltatime """
@@ -48,12 +49,19 @@ class Clip(BaseVideo):
     """a videoclip generated cutting/concatenating origin videos"""
 
     @classmethod
-    def create_from_channel(channel, start_time, end_time):
+    def create_from_channel(cls, channel, start_time, end_time):
         """
         create (if needed) a clip instance for the channel and time segment given
         """
-        pass
 
+        # don't duplicate a clip already generated
+        clip = Clip.objects.filter(channel=channel, start_time=start_time, end_time=end_time)
+        if clip:
+            return clip[0]
+
+        origin_begin = Origin.objects.filter(Q(start_time__range=(start_time, end_time) |
+                                  Q(end_time__range=(start_time, end_time)) |
+                                  Q(start_time_lte=start_time, end_time__gte=end_time)))
 
 
 
