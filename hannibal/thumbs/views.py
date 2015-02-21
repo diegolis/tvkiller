@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from thumbs.models import Channel, Thumb
 import json
@@ -20,9 +20,9 @@ def get_thumbs(request, channel_id):
 def get_thumb(request, thumb_id):
     """ Serves an image """
     try:
-        t = Thumb.objects.get(id=thumb_id)
+        t = get_object_or_404(Thumb, id=thumb_id)
         with open(t.filename) as f:
             content = f.read()
-    except OSError, Thumb.DoesNotExist:
+    except OSError:
         return HttpResponse(status=404)
     return HttpResponse(content, content_type="image/jpeg")
