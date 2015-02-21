@@ -86,8 +86,8 @@ class Thumb(models.Model):
 
         basedirs = self.datetime.strftime('%Y%m%d_%H%M').split('_')
         # append thumb name
-        basedirs.append('{:03d}'.format(self.datetime.strfime('%S')))
-        fp = os.path.join(self.channel.base_dir, *basedirs)
+        basedirs.append('{:03d}'.format(self.datetime.second))
+        fp = os.path.join(self.channel.base_dir(), *basedirs)
         return fp
 
     def exists(self):
@@ -95,6 +95,6 @@ class Thumb(models.Model):
 
     def __unicode__(self):
         return 'Thumb {} {}'.format(self.channel.name,
-                                    self.datetime.strftime('%d/%m/%Y %H:%M%:S'))
+                                    self.datetime.strftime('%d/%m/%Y %H:%M:%S'))
 
 
