@@ -5,6 +5,8 @@ import os
 # Create your models here.
 class Channel(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    device_name = models.CharField(max_length=200, default="")
+    device_slot = models.CharField(max_length=200, default="")
 
     def save(self, *args, **kwargs):
         """ Create a directory for the thumbnails. """
