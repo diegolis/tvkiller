@@ -1,3 +1,10 @@
-from django.contrib import admin
+# -*- coding: utf-8 -*-
+"""
+Definitionf for djang admin
+"""
 
-# Register your models here.
+from django.contrib import admin
+from .models import Channel
+
+
+admin.site.register(Channel)
