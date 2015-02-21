@@ -47,6 +47,14 @@ class Clip(BaseVideo):
     pass
     """a videoclip generated cutting/concatenating origin videos"""
 
+    @classmethod
+    def create_from_channel(channel, start_time, end_time):
+        """
+        create (if needed) a clip instance for the channel and time segment given
+        """
+        pass
+
+
 
 
 
