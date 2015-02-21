@@ -6,11 +6,41 @@ from inotify import watcher
 import inotify
 import sys
 import traceback
-
+import os
+import re
+import subprocess
 import local_settings
 
-def generate_thumbnails(srcpath, dstpath, channel):
-    pass
+
+def generate_thumbnails(srcpath, dstpath, ffmpeg_bin):
+    # srcpath = '/aaaaa/bbbb/cccc/ddd/eeeeeee_ffffffff_gggg.avi'
+    # dstpath = '/zzzz/xxxx/yyyyy/'
+    # ffmpeg_bin = '/usr/bin/ffmpeg'
+
+    file_name = srcpath[srcpath.rindex('/')+1:-4]
+    #file_path = srcpath[:srcpath.rindex('/')+1]
+    
+    searchObj = re.search(r'(.*)_(.*)_(.*)_(.*)', file_name, re.M|re.I)
+    fdate = searchObj.group(3)
+    ftime = searchObj.group(4)
+    
+    file_datetime = datetime.datetime(fdate[:4], fdate[4:6], fdate[6:], ftime[:2], ftime[2:4])
+
+    finalpath = os.path.join(dstpath, fdate, ftime[:-2])
+
+    try:
+        os.makedirs(finalpath)
+    except:
+        pass    # probably folders exists.
+    
+    cmd = "%s -i %s -f image2 -vf fps=fps=1 %s"
+    cmd = cmd % (ffmpeg_bin, srcpath, finalpath + '%03d.jpg')
+    os.system(cmd)
+
+    ###
+    # Here database query.
+    ###
+
 
 def main(source, storage, ffmpeg_bin=None):
 
