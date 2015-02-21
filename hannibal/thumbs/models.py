@@ -23,7 +23,11 @@ class Channel(models.Model):
         return os.path.join(settings.THUMB_DIR, str(self.id))
 
 
-class Origin(models.Model):
+class BaseVideo(models.Model):
+
+    class Meta:
+        abstract = True
+
     channel = models.ForeignKey(Channel)
     start_time = models.DateTimeField(null=False)
     end_time = models.DateTimeField(null=False)
@@ -32,3 +36,17 @@ class Origin(models.Model):
     def duration(self):
         """ Returns deltatime """
         return self.end_time - self.start_time
+
+
+class Origin(BaseVideo):
+    """a chunk of video captured from a channel. It's the source for clips"""
+    pass
+
+
+class Clip(BaseVideo):
+    pass
+    """a videoclip generated cutting/concatenating origin videos"""
+
+
+
+
