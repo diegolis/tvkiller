@@ -9,4 +9,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^get_thumbs/(?P<channel_id>\d+)/', 'thumbs.views.get_thumbs',
         name='get_thumbs'),
+    url(r'^get_thumb/(?P<thumb_id>\d+)/', 'thumbs.views.get_thumb',
+        name='get_thumb'),
 )
