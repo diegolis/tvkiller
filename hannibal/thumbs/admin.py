@@ -1,5 +1,10 @@
-from django.contrib import admin
-from thumbs.models import Channel
+# -*- coding: utf-8 -*-
+"""
+Definitions for django admin
+"""
 
-# Register your models here.
+from django.contrib import admin
+from .models import Channel
+
+
 admin.site.register(Channel)
