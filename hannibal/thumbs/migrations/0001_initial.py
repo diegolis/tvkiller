@@ -55,6 +55,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('datetime', models.DateTimeField()),
+                ('filename', models.CharField(max_length=200)),
                 ('channel', models.ForeignKey(to='thumbs.Channel')),
             ],
             options={
