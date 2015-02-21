@@ -22,7 +22,7 @@ class Channel(models.Model):
         except OSError:
             pass
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def base_dir(self):
@@ -85,7 +85,7 @@ class Thumb(models.Model):
     def exists(self):
         return os.path.exists(self.filepath())
 
-    def __str__(self):
+    def __unicode__(self):
         return 'Thumb {} {}'.format(self.channel.name,
                                     self.datetime.strftime('%d/%m/%Y %H:%M%:S'))
 
