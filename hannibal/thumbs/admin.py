@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Definitionf for djang admin
+Definitions for django admin
 """
 
 from django.contrib import admin
