@@ -2,6 +2,7 @@ from celery import task
 from datetime import datetime
 from django.utils import timezone
 from django.conf import settings
+from moviepy.editor import concatenate_videoclips
 import os.path
 
 @task()
