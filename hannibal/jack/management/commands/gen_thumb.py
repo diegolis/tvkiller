@@ -28,15 +28,15 @@ class Command(BaseCommand):
         # If channel doesn't exist, let the command die
         chan = Channel.objects.get(device_name=fdevice, device_slot=fcamera)
 
-        file_dtime = datetime.datetime(int(fdate[:4]), 
-                                          int(fdate[4:6]), 
-                                          int(fdate[6:]), 
-                                          int(ftime[:2]), 
+        file_dtime = datetime.datetime(int(fdate[:4]),
+                                          int(fdate[4:6]),
+                                          int(fdate[6:]),
+                                          int(ftime[:2]),
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
 
         finalpath = os.path.join(chan.base_dir(), fdate, ftime[:-2])
-
+        import ipdb; ipdb.set_trace()
         try:
             os.makedirs(finalpath)
         except:
