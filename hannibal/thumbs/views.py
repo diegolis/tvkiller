@@ -16,7 +16,7 @@ def get_thumbs(request, channel_id):
             "isodate": thumb.datetime.isoformat(),
         })
 
-    return JsonResponse(data)
+    return JsonResponse(data, safe=False)
 
 
 def get_thumb(request, thumb_id):
