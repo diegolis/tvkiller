@@ -4,6 +4,12 @@ from django.conf import settings
 import os
 from datetime import timedelta
 from moviepy.editor import VideoFileClip, concatenate_videoclips
+from model_utils.fields import StatusField
+from model_utils import Choices
+from hashids import Hashids
+
+
+hashids = Hashids(settings.HASHID_SALT, 10)
 
 
 # Create your models here.
@@ -40,8 +46,8 @@ class BaseVideo(models.Model):
         abstract = True
 
     channel = models.ForeignKey(Channel)
-    start_time = models.DateTimeField(null=False)
-    end_time = models.DateTimeField(null=False)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     filename = models.FileField()
 
     def __unicode__(self):
@@ -70,7 +76,14 @@ class Origin(BaseVideo):
 class Clip(BaseVideo):
     """a videoclip generated cutting/concatenating
     origin videos"""
-    pass
+
+    STATUS = Choices('in_process', 'done')
+    hashid = models.CharField(max_length=10, unique=True, editable=False)
+    status = StatusField()
+
+    def save(self, *args, **kwargs):
+        self.hashids = hashids.encode(str(self.filename))
+        return super(Clip, self).save(*args, **kwargs)
 
     @classmethod
     def create_from_channel(cls, channel, start_time, end_time):

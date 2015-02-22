@@ -87,3 +87,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 THUMB_DIR = os.path.join(BASE_DIR, 'public')
+
+
+HASHID_SALT = "this is the dummy salt"   # change this in production
