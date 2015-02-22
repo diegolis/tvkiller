@@ -1,4 +1,12 @@
-<ion-view title="channel.name" ng-init="init()">
+
+
+<ion-view title="channel.name" ng-init="init()" class="channel-page">
+	<div class="bar bar-header bar-light">
+		<button class="button button-icon icon ion-chevron-left"></button>
+		<h1 class="title">Choose an scene</h1>
+	</div>
+
+
     <ion-content class="has-header">
 
 	<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true">
@@ -8,12 +16,12 @@
 	</ion-scroll>
 
 
-<div class="range">
-  <i class="icon ion-volume-low"></i>
-  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position">
-  <i class="icon ion-volume-high"></i>
+<div class="range range-positive">
+  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position"  class="video-scroll-range">
 </div>
 
 
     </ion-content>
+
+
 </ion-view>

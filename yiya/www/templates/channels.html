@@ -1,12 +1,82 @@
-<ion-view title="Channels">
-  <ion-content class="has-header">
+<ion-view title="Channels" class="channels-list">
+	<div class="bar bar-header bar-light">
+		<!-- button class="button button-icon icon ion-close"></button -->
+		<h1 class="title">Select a Channel</h1>
+	</div>
 
+	<ion-content class="has-header">
+		<h2>What are you watching now?</h2>
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-search placeholder-icon"></i>
+				<input type="text" placeholder="Enter channel or show name">
+			</label>
+		</div>
 
+		<h4>Favourites</h4>
+		<ion-list>
+			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
+				<img src="{{channel.logo}}">
+				<div class="channel-name">
+					{{channel.name}}
+				</div>	
+			</ion-item>
+		</ion-list>
 
-      <ion-list>
-          <ion-item ng-repeat="channel in channels" 
-                    href="#/channels/{{channel.id}}">{{channel.name}}</ion-item>
-      </ion-list>
-  </ion-content>
+		<h4>Sports</h4>
+		<ion-list>
+			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
+				<div class="channel-logo">
+					<div class="channel-logo-fix">
+						<!-- img src="{{channel.logo}}" -->
+					</div>	
+				</div>	
+				<div class="channel-name">
+					{{channel.name}}
+				</div>	
+			</ion-item>
+		</ion-list>
+
+		<h4>News</h4>
+		<ion-list>
+			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
+				<div class="channel-logo">
+					<div class="channel-logo-fix">
+						<!-- img src="{{channel.logo}}" -->
+					</div>	
+				</div>	
+				<div class="channel-name">
+					{{channel.name}}
+				</div>	
+			</ion-item>
+		</ion-list>
+
+		<h4>Kids</h4>
+		<ion-list>
+			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
+				<div class="channel-logo">
+					<div class="channel-logo-fix">
+						<!-- img src="{{channel.logo}}" -->
+					</div>	
+				</div>	
+				<div class="channel-name">
+					{{channel.name}}
+				</div>	
+			</ion-item>
+		</ion-list>
+
+		<h4>World</h4>
+		<ion-list>
+			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
+				<div class="channel-logo">
+					<div class="channel-logo-fix">
+						<!-- img src="{{channel.logo}}" -->
+					</div>	
+				</div>	
+				<div class="channel-name">
+					{{channel.name}}
+				</div>	
+			</ion-item>
+		</ion-list>
+	</ion-content>
 </ion-view>
-
