@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import JsonResponse
 from thumbs.models import Channel, Thumb, Clip
 from sendfile import sendfile
 from datetime import timedelta
-import json
 
 def get_thumbs(request, channel_id):
     """ Returns a json with the last N frames """
@@ -17,8 +16,7 @@ def get_thumbs(request, channel_id):
             "isodate": thumb.datetime.isoformat(),
         })
 
-    response = HttpResponse(json.dumps(data), content_type="application/json")
-    return response
+    return JsonResponse(data)
 
 
 def get_thumb(request, thumb_id):
@@ -32,7 +30,8 @@ def make_clip(request, thumb_id, duration):
     """
     thumb = get_object_or_404(Thumb, id=thumb_id)
     clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime + timedelta(seconds=int(duration)))
-    return redirect(clip.get_absolute_url())
+    return JsonResponse({'clip_url':request.build_absolute_uri(clip.get_absolute_url())})
+
 
 
 def player(request, hashid):
