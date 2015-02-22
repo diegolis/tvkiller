@@ -1,4 +1,4 @@
 Django==1.7.4
 wsgiref==0.1.2
-python-inotify===0.6-test  # Needs <Python.h> from the python-dev
+python-inotify==0.6-test  # Needs <Python.h> from the python-dev
 subprocess32==3.2.6
