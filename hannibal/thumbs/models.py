@@ -93,13 +93,20 @@ class Clip(BaseVideo):
         delta_start = (start_time - sources[0].start_time).seconds
         delta_end = (sources[-1].end_time - end_time).seconds
 
-        clip_video = concatenate_videoclips([s.movie for s in sources])
-        clip_video = clip_video.subclip(delta_start, clip_video.duration - delta_end)
+        if len(sources) == 1:
+
+            clip_video = sources[0].movie.subclip(delta_start, sources[0].duration - delta_end)
+        else:
+            clip_inicio = sources[0].movie.subclip(delta_start, sources[0].duration)
+            clip_fin = sources[-1].movie.subclip(0, sources[-1].duration - delta_end)
+            clips_medio = [s.movie for s in sources[1:-1]]
+            clip_video = concatenate_videoclips([clip_inicio] + clips_medio + [clip_fin])
+
 
         filename = '%s_%s_%s.webm' % (channel.name, start_time.strftime("%Y%m%d%H%M%S"),
                                       end_time.strftime("%Y%m%d%H%M%S"))
 
-        clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename))
+        clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename), preset='ultrafast', threads=4)
         clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename)
         return clip
 
