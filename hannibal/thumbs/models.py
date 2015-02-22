@@ -18,13 +18,13 @@ class Channel(models.Model):
     device_name = models.CharField(max_length=200, default="")
     device_slot = models.CharField(max_length=200, default="")
 
-    def save(self, *args, **kwargs):
-        """ Create a directory for the thumbnails. """
-        super(Channel, self).save(*args, **kwargs)
-        try:
-            os.mkdir(self.base_dir())
-        except OSError:
-            pass
+    # def save(self, *args, **kwargs):
+        # """ Create a directory for the thumbnails. """
+        # super(Channel, self).save(*args, **kwargs)
+        # try:
+            # os.mkdir(self.base_dir())
+        # except OSError:
+            # pass
 
     def __unicode__(self):
         return self.name
