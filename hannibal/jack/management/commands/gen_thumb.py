@@ -12,11 +12,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # srcpath = '/aaaaa/bbbb/cccc/ddd/eeeeeee_ffffffff_gggg.avi'
-        # dstpath = '/zzzz/xxxx/yyyyy/'
         # ffmpeg_bin = '/usr/bin/ffmpeg'
 
-        srcpath, dstpath, ffmpeg_bin = args[:3]
-        print srcpath, dstpath, ffmpeg_bin
+        srcpath, ffmpeg_bin = args[:2]
+        print srcpath, ffmpeg_bin
 
         file_name = srcpath[srcpath.rindex('/')+1:-4]
         #file_path = srcpath[:srcpath.rindex('/')+1]
@@ -37,7 +36,7 @@ class Command(BaseCommand):
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
 
-        finalpath = os.path.join(dstpath, chan, fdate, ftime[:-2])
+        finalpath = os.path.join(chan.base_dir(), fdate, ftime[:-2])
 
         try:
             os.makedirs(finalpath)
