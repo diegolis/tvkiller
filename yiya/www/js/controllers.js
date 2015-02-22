@@ -9,7 +9,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.thumbnails = thumbnails($stateParams.channelId)
 
     // share anywhere
-	$scope.share = function () {
-	    $cordovaSocialSharing.share('This is my message', 'Subject string', null, 'http://www.mylink.com');
+	$scope.share = function (thumbnail) {
+	    $cordovaSocialSharing.share('Look this image', $scope.channel.name, null, thumbnail.src);
 	}
 })

@@ -1,10 +1,10 @@
-<ion-view title="Channel">
+<ion-view title="channel.name">
     <ion-content class="has-header">
         <div class="list card">
 
         <div class="scroll-container" style="overflow-y: hidden; width:100%">
 	      <div ng-repeat="thumbnail in thumbnails" style="display:inline; float:left">
-	          <img src="{{thumbnail.src}}" ng-click="share()" />
+	          <img src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
 	    </div>
         
         </div>
