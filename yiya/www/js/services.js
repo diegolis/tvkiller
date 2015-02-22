@@ -1,7 +1,7 @@
-angular.module('starter.services', ['ngResource'])
+angular.module('starter.services', [])
 
 
-.factory('Channels', function ($resource) {
+.factory('Channels', function () {
 	var channels = [
             {id: 1, name: 'Telefé'}, 
             {id: 2, name: 'Canal 13'}, 
@@ -18,7 +18,7 @@ angular.module('starter.services', ['ngResource'])
 
 
 
-.factory('Thumbnails', function ($resource) {
+.factory('Thumbnails', function () {
 	var thumbnails = [
             [{hora: "10:00:00"}, {hora: "10:00:01"}, {hora: "10:00:02"}, {hora: "10:00:03"}], 
             [{hora: "10:00:10"}, {hora: "10:00:11"}, {hora: "10:00:12"}, {hora: "10:00:13"}], 

@@ -8,5 +8,12 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('ChannelCtrl', function($scope, $stateParams, Thumbnails) {
     $scope.thumbnails = Thumbnails.get($stateParams.channelId)
+
+    // share anywhere
+	$scope.share = function () {
+	    $cordovaSocialSharing.share('This is my message', 'Subject string', null, 'http://www.mylink.com');
+	}
+	
+
 })
 

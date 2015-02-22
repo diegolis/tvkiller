@@ -4,9 +4,9 @@
 
         <div class="scroll-container" style="overflow-y: hidden; width:100%">
 	      <div ng-repeat="thumbnail in thumbnails" style="display:inline; float:left">
-	          <img src="{{thumbnail.src}}" />
+	          <img src="{{thumbnail.src}}" ng-click="share()" />
 	    </div>
-        	
+        
         </div>
     </ion-content>
 </ion-view>
