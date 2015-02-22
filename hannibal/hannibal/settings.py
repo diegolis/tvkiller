@@ -87,11 +87,18 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# https://docs.djangoproject.com/en/1.7/howto/static-files
+
+# CELERY SETTINGS
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 THUMB_DIR = 'thumbs'  # relative to media root
 HASHID_SALT = "this is the dummy salt"   # change this in production
-SENDFILE_BACKEND = 'sendfile.backends.simple'
+SENDFILE_BACKEND = 'sendfile.backends.simple' # check the docs
