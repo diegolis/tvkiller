@@ -1,7 +1,15 @@
 <ion-view title="channel.name">
     <ion-content class="has-header">
-        <div class="list card">
 
+
+<div class="range">
+  <i class="icon ion-volume-low"></i>
+  <input type="range" name="volume" ng-change="go_to_thumbnail()" ng-model="position">
+  <i class="icon ion-volume-high"></i>
+</div>
+
+
+        <div class="list card">
         <div class="scroll-container" style="overflow-y: hidden; width:100%">
 	      <div ng-repeat="thumbnail in thumbnails" style="display:inline; float:left">
 	          <img src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
