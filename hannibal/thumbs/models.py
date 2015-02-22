@@ -29,10 +29,6 @@ class Channel(models.Model):
     def __unicode__(self):
         return self.name
 
-    def base_dir(self):
-        """Return base dir for storing this channel's thumbs"""
-        return os.path.join(settings.THUMB_DIR, str(self.id))
-
 
 class BaseVideo(models.Model):
 

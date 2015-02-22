@@ -87,7 +87,6 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-THUMB_DIR = os.path.join(MEDIA_ROOT, 'public')
-
+THUMB_DIR = 'thumbs'  # relative to media root
 
 SENDFILE_BACKEND = 'sendfile.backends.simple'

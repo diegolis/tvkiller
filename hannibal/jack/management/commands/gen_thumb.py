@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from thumbs.models import Thumb, Channel
-
+from django.conf import settings
 import inotify
 import os
 import re
@@ -35,15 +35,14 @@ class Command(BaseCommand):
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
 
-        finalpath = os.path.join(chan.base_dir(), fdate, ftime[:-2])
-        import ipdb; ipdb.set_trace()
+        finalpath = os.path.join(str(chan.id), fdate, ftime[:-2])
         try:
-            os.makedirs(finalpath)
+            os.makedirs(os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath))
         except:
             pass    # probably folders exists.
 
         cmd = "%s -i %s -f image2 -vf fps=fps=1 %s"
-        cmd = cmd % (ffmpeg_bin, srcpath, os.path.join(finalpath, '%03d.jpg'))
+        cmd = cmd % (ffmpeg_bin, srcpath, os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath, '%03d.jpg'))
         os.system(cmd)
 
         ###
@@ -52,9 +51,9 @@ class Command(BaseCommand):
         thumbs_data = []
         a_second = datetime.timedelta(seconds=1)
 
-        for f in sorted(os.listdir(finalpath)):
+        for f in sorted(os.listdir(os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath))):
             file_dtime += a_second
-            thumbs_data.append((file_dtime , os.path.join(finalpath, f)))
+            thumbs_data.append((file_dtime , os.path.join(settings.THUMB_DIR, finalpath, f)))
 
         Thumb.objects.bulk_create(
                 [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumbs_data])
