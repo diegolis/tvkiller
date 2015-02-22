@@ -37,11 +37,11 @@ FFMPEG = '/usr/bin/ffmpeg'
 SOURCE = '/var/www/multimedia/ar/tvkiller/videos/'
 ```
 
-### load initial data
+### set up django db
+* edit localsettings to use the backend of your choice
+* `python manage.py migrate`
+* `python manage.py loaddata initial_channels.json`
 
-```
-python manage.py loaddata thumbs/fixtures/initial_channel.json`
-```
 
 ### setup crontab
 
