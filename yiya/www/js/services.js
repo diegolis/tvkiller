@@ -1,5 +1,21 @@
-angular.module('starter.services', [])
+var BASE_URL = "http://localhost:8000/";
 
+function get_thumbnails($http, $log, channel_id) {
+    var url = BASE_URL + "get_thumbs/" + channel_id;
+    var retval = []
+
+    $http.get(url)
+    .success(function(data, status, headers, config) {
+        retval = data
+    })
+    .error(function(data, status, headers, config) {
+        retval = []
+    });
+    $log.info("Returning:" + retval);
+    return retval;
+};
+
+angular.module('starter.services', [])
 
 .factory('Channels', function () {
 	var channels = [
@@ -14,28 +30,8 @@ angular.module('starter.services', [])
     	}
     }
 })
-
-
-
-
-.factory('Thumbnails', function () {
-	var thumbnails = [
-            [{hora: "10:00:00"}, {hora: "10:00:01"}, {hora: "10:00:02"}, {hora: "10:00:03"}], 
-            [{hora: "10:00:10"}, {hora: "10:00:11"}, {hora: "10:00:12"}, {hora: "10:00:13"}], 
-            [{hora: "10:00:20"}, {hora: "10:00:21"}, {hora: "10:00:22"}, {hora: "10:00:23"}], 
-      ];
-
-    return {
-    	/*get: function (channelId) {
-    		return thumbnails[channelId-1];
-    	},*/
-    	get: function() {
-    		var res = [];
-    		for (i=0;i<600;i++) {
-    			res.push({src: "img/messi.jpg"});
-    		}
-    		return res;
-    	}
-    }
-})
-
+.factory('thumbnails', function ($http, $log) {
+    return function(channel_id) {
+        get_thumbnails($http, $log, channel_id);;
+    };
+});

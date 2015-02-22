@@ -5,15 +5,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.channels = Channels.all()
 })
 
-
-.controller('ChannelCtrl', function($scope, $stateParams, Thumbnails, $cordovaSocialSharing) {
-    $scope.thumbnails = Thumbnails.get($stateParams.channelId)
+.controller('ChannelCtrl', function($scope, $stateParams, thumbnails, $cordovaSocialSharing) {
+    $scope.thumbnails = thumbnails($stateParams.channelId)
 
     // share anywhere
 	$scope.share = function () {
 	    $cordovaSocialSharing.share('This is my message', 'Subject string', null, 'http://www.mylink.com');
 	}
-	
-
 })
-
