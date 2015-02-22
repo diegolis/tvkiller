@@ -9,12 +9,16 @@ import datetime
 import fcntl
 import subprocess32
 import threading
+import warnings
 
 def add_thumb(channel, base_dtime, path):
     """ Process the path of a newly added thumb and add the corresponding objecto to the db. """
-    offset, _, _ = os.path.basename(path).rpartition('.')
-    dtime = base_dtime + datetime.timedelta(seconds=int(offset) - 1)
-    Thumb.objects.create(channel=channel, datetime=dtime, filename=path)
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore",category=RuntimeWarning)
+
+        offset, _, _ = os.path.basename(path).rpartition('.')
+        dtime = base_dtime + datetime.timedelta(seconds=int(offset) - 1)
+        Thumb.objects.create(channel=channel, datetime=dtime, filename=path)
 
 class Command(BaseCommand):
     args = '<vid_file>'
