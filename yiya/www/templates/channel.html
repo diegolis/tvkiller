@@ -1,12 +1,17 @@
-<ion-view title="Channel">
-    <ion-content class="has-header">
-        <div class="list card">
+<ion-view title="Channel" class="channel-page">
+	<div class="bar bar-header bar-light">
+		<button class="button button-icon icon ion-chevron-left"></button>
+		<h1 class="title">Choose an scene</h1>
+	</div>
 
-        <div class="scroll-container" style="overflow-y: hidden; width:100%">
-	      <div ng-repeat="thumbnail in thumbnails" style="display:inline; float:left">
-	          <img src="{{thumbnail.src}}" ng-click="share()" />
+    <ion-content class="has-header">
+	    
+	    <div class="scroll-container">
 	    </div>
-        
-        </div>
-    </ion-content>
+
+		<div class="range range-positive">
+			<input type="range" class="video-scroll-range">
+		</div>
+
+	</ion-content>
 </ion-view>

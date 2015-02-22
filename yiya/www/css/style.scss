@@ -1,0 +1,209 @@
+// ----------------------------------------------------------------
+// TVKILLER APP
+// By Infoxel & Friends - Tanti 2015
+// ----------------------------------------------------------------
+
+
+// FONTS
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic');
+$font-family-general: "Roboto", Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+
+// PROPERTIES
+@mixin border-radius($border-radius-radius: 50%) {
+	-webkit-border-radius: $border-radius-radius;
+	-moz-border-radius: $border-radius-radius;
+	-ms-border-radius: $border-radius-radius;
+	-o-border-radius: $border-radius-radius;
+	border-radius: $border-radius-radius;
+}
+
+
+// IONIC COLORS
+$light: 	#fff;
+$stable:	#f8f8f8;
+$positive:  #387ef5;
+$calm:      #11c1f3;
+$balanced:  #33cd5f;
+$energized: #ffc900;
+$assertive: #ef473a;
+$royal:     #886aea;
+$dark:      #444;
+
+
+// COLORS
+$color-text-general: #FFF;
+
+
+// GENERAL
+body, 
+html {
+	font-family: $font-family-general;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 22px;
+	letter-spacing: normal;
+	font-smooth: always;
+	background-color: #F7F7F7;
+	-webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+
+.bar {
+	.button.button-icon {
+		&:before,
+		&.icon-left:before,
+		&.icon-right:before,
+		.icon:before {
+			font-size: 18px;
+		}	
+	}
+}
+
+
+// CHANNELS LIST
+.channels-list {
+	background-color: darken($positive, 40%);
+	background-color: #2E61C2;
+
+	h2 {
+		font-weight: 100;
+		text-align: center;
+		margin-top: 50px;
+		margin-bottom: 40px;
+		padding: 0 20px;
+		line-height: 28px;
+		text-transform: uppercase;
+		color: $color-text-general;
+	}
+	
+	h4 {
+		font-weight: 100;
+		color: $positive;
+		margin-top: 40px;
+		padding: 0 16px;
+		font-size: 30px;
+		color: $color-text-general;
+	}
+
+	ion-list {
+		font-size: 0;
+		line-height: 0;
+		width: 100%;
+		
+		.list {
+			width: 100%;
+			padding: 0 16px;
+		}
+
+		.item-complex {
+			display: inline-block;
+			margin-bottom: 2px;
+			width: 33.3333%;
+			text-align: center;
+			font-size: 13px;
+			font-weight: 400;
+			line-height: 17px;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			padding: 0;
+			margin: 0;
+			overflow: visible;
+			border: none;
+			background: none;
+			margin-bottom: 45px;
+			// OTHER
+			text-align: left;
+
+			.item-content {
+				@include border-radius(4px);
+				width: 85px;
+				height: 85px;
+				background-color: $color-text-general;
+				padding: 0;
+				margin: 0 auto;
+				overflow: visible;
+				// OTHER
+				margin: 0;
+			}
+			
+			.channel-name {
+				position: absolute;
+				top: 92px;
+				left: 0;
+				width: 100%;
+				font-size: 15px;
+				font-weight: 100;
+				color: $color-text-general;
+			}
+		
+			.channel-logo {
+				display: table;
+				width: 100%;
+				height: 100%;
+
+				.channel-logo-fix {
+					display: table-cell;
+					vertical-align: middle;
+					text-align: center;
+					
+					img {
+						max-width: 65px;
+						max-height: 65px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+// CHANNEL PAGE
+.channel-page {
+	background-color: #F7F7F7;
+	
+	.scroll-container {
+		height: 300px;
+		width: 100%;
+		background-color: gray;
+	}
+	
+	.video-scroll-range {
+		overflow: visible;
+
+		&::-webkit-slider-thumb {
+			background: none;
+			box-shadow: none;
+			border-radius: 0;
+			overflow: visible;
+			width: 0;
+
+			-webkit-appearance: none;
+			-webkit-tap-highlight-color: rgba(255, 255, 255, .5);
+			
+			&:after {
+				-webkit-appearance: none;
+				content: url('../img/tvkiller_slider_pointer.svg');
+				width: 25px;
+				height: 40px;
+				padding: 0 !important;
+				margin: 0 !important;
+				display: block;
+				top: -25px;
+				z-index: 10000;
+			}
+		}
+		
+		&:after {
+			content: '';
+			width: 21px;
+			height: 40px;
+			background-color: #F7F7F7;
+			display: block;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+		}
+	}
+}

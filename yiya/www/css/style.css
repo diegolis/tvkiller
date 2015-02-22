@@ -1,1 +1,129 @@
-/* Empty. Add your own CSS if you like */
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic");
+body,
+html {
+  font-family: "Roboto", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: normal;
+  font-smooth: always;
+  background-color: #F7F7F7;
+  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: subpixel-antialiased; }
+
+.bar .button.button-icon:before, .bar .button.button-icon.icon-left:before, .bar .button.button-icon.icon-right:before,
+.bar .button.button-icon .icon:before {
+  font-size: 18px; }
+
+.channels-list {
+  background-color: #05255c;
+  background-color: #2E61C2; }
+  .channels-list h2 {
+    font-weight: 100;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    line-height: 28px;
+    text-transform: uppercase;
+    color: white; }
+  .channels-list h4 {
+    font-weight: 100;
+    color: #387ef5;
+    margin-top: 40px;
+    padding: 0 16px;
+    font-size: 30px;
+    color: white; }
+  .channels-list ion-list {
+    font-size: 0;
+    line-height: 0;
+    width: 100%; }
+    .channels-list ion-list .list {
+      width: 100%;
+      padding: 0 16px; }
+    .channels-list ion-list .item-complex {
+      display: inline-block;
+      margin-bottom: 2px;
+      width: 33.3333%;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 17px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      border: none;
+      background: none;
+      margin-bottom: 45px;
+      text-align: left; }
+      .channels-list ion-list .item-complex .item-content {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        -o-border-radius: 4px;
+        border-radius: 4px;
+        width: 85px;
+        height: 85px;
+        background-color: white;
+        padding: 0;
+        margin: 0 auto;
+        overflow: visible;
+        margin: 0; }
+      .channels-list ion-list .item-complex .channel-name {
+        position: absolute;
+        top: 92px;
+        left: 0;
+        width: 100%;
+        font-size: 15px;
+        font-weight: 100;
+        color: white; }
+      .channels-list ion-list .item-complex .channel-logo {
+        display: table;
+        width: 100%;
+        height: 100%; }
+        .channels-list ion-list .item-complex .channel-logo .channel-logo-fix {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center; }
+          .channels-list ion-list .item-complex .channel-logo .channel-logo-fix img {
+            max-width: 65px;
+            max-height: 65px; }
+
+.channel-page {
+  background-color: #F7F7F7; }
+  .channel-page .scroll-container {
+    height: 300px;
+    width: 100%;
+    background-color: gray; }
+  .channel-page .video-scroll-range {
+    overflow: visible; }
+    .channel-page .video-scroll-range::-webkit-slider-thumb {
+      background: none;
+      box-shadow: none;
+      border-radius: 0;
+      overflow: visible;
+      width: 0;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5); }
+      .channel-page .video-scroll-range::-webkit-slider-thumb:after {
+        -webkit-appearance: none;
+        content: url("../img/tvkiller_slider_pointer.svg");
+        width: 25px;
+        height: 40px;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block;
+        top: -25px;
+        z-index: 10000; }
+    .channel-page .video-scroll-range:after {
+      content: '';
+      width: 21px;
+      height: 40px;
+      background-color: #F7F7F7;
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0; }
