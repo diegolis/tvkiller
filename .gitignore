@@ -55,3 +55,8 @@ target/
 
 # DB
 hannibal/db.sqlite3
+
+local_settings.py
+
+# thumbs
+public/
