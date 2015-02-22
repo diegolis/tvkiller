@@ -11,6 +11,9 @@ angular.module('starter.services', [])
     return {
     	all: function () {
     		return channels;
+    	},
+    	get: function ($channelId) {
+    		return channels[$channelId - 1];
     	}
     }
 })
@@ -32,7 +35,9 @@ angular.module('starter.services', [])
     	get: function() {
     		var res = [];
     		for (i=0;i<600;i++) {
-    			res.push({src: "img/messi.jpg"});
+    			res.push({
+    				src: "img/messi.jpg",
+    			});
     		}
     		return res;
     	}
