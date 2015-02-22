@@ -60,7 +60,8 @@ class BaseVideo(models.Model):
         return self.movie.duration
 
     def save(self, *args, **kwargs):
-        self.end_time = self.start_time + timedelta(seconds=self.duration)
+        if not self.end_time:
+            self.end_time = self.start_time + timedelta(seconds=self.duration)
         return super(BaseVideo, self).save(*args, **kwargs)
 
 
