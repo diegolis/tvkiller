@@ -34,9 +34,9 @@ angular.module('starter.services', [])
     	},*/
     	get: function() {
     		var res = [];
-    		for (i=0;i<600;i++) {
+    		for (i=1;i<=639;i++) {
     			res.push({
-    				src: "img/messi.jpg",
+    				src: "img/thumbs/" + i + ".jpg",
     			});
     		}
     		return res;

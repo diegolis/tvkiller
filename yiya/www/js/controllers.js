@@ -6,7 +6,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 })
 
 
-.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, $cordovaSocialSharing) {
+.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, $cordovaSocialSharing, $ionicScrollDelegate) {
     $scope.thumbnails = Thumbnails.get($stateParams.channelId)
     $scope.channel = Channels.get($stateParams.channelId - 1)
     $scope.position = 0
@@ -16,8 +16,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 	    $cordovaSocialSharing.share('Look this image', $scope.channel.name, null, thumbnail.src);
 	}
 	
-	$scope.go_to_thumbnail = function (position) {
-		//alert(position);
+	$scope.go_to_position = function (position) {
+		$ionicScrollDelegate.$getByHandle("carousel").scrollTo(position*320, 0, true);
+
 	}
 
 })
