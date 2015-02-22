@@ -10,7 +10,7 @@ import subprocess32
 
 import local_settings
 
-def main(source, storage, ffmpeg_bin=None):
+def main(source, ffmpeg_bin=None):
 
     w = watcher.AutoWatcher()
 
@@ -32,7 +32,7 @@ def main(source, storage, ffmpeg_bin=None):
             # The inotify.decode_mask function returns a list of the
             # names of the bits set in an event's mask.  This is very
             # handy for debugging.
-            subprocess32.call(["python", "manage.py", "gen_thumb", evt.fullpath, storage, ffmpeg_bin])
+            subprocess32.call(["python", "manage.py", "gen_thumb", evt.fullpath, ffmpeg_bin])
 
 if __name__=="__main__":
 
@@ -43,7 +43,6 @@ if __name__=="__main__":
 
     try:
         main(local_settings.SOURCE, 
-            local_settings.STORAGE,
             ffmpeg)
     except KeyboardInterrupt:
         print("Shutdown requested...exiting.")

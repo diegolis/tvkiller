@@ -118,14 +118,7 @@ class Thumb(models.Model):
     """
     channel = models.ForeignKey(Channel)
     datetime = models.DateTimeField(null=False)
-    filename = models.CharField(max_length=200)
-
-    def filepath(self):
-        """Return file path where this thumb should live."""
-        return self.filename
-
-    def exists(self):
-        return os.path.exists(self.filepath())
+    filename = models.FileField()
 
     def __unicode__(self):
         return 'Thumb {} {}'.format(self.channel.name,
