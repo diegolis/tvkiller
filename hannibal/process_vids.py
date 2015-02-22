@@ -15,7 +15,7 @@ def main(source, ffmpeg_bin=None):
     w = watcher.AutoWatcher()
 
     try:
-        w.add_all(source, inotify.IN_CLOSE_WRITE)
+        w.add_all(source, inotify.IN_CREATE)
     except OSError as err:
         print('%s: %s' % (err.filename, err.strerror), file=sys.stderr)
 

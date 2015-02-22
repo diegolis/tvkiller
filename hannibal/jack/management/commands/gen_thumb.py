@@ -1,10 +1,19 @@
 from django.core.management.base import BaseCommand, CommandError
 from thumbs.models import Thumb, Channel
 
+from inotify import watcher
 import inotify
 import os
 import re
 import datetime
+import fcntl
+import subprocess32
+
+def add_thumb(channel, base_dtime, path):
+    """ Process the path of a newly added thumb and add the corresponding objecto to the db. """
+    offset, _, _ = os.path.basename(path).rpartition('.')
+    dtime = base_dtime + datetime.timedelta(seconds=int(offset) - 1)
+    Thumb.objects.create(channel=channel, datetime=dtime, filename=path)
 
 class Command(BaseCommand):
     args = '<vid_file>'
@@ -42,21 +51,50 @@ class Command(BaseCommand):
         except:
             pass    # probably folders exists.
 
-        cmd = "%s -i %s -f image2 -vf fps=fps=1 %s"
-        cmd = cmd % (ffmpeg_bin, srcpath, os.path.join(finalpath, '%03d.jpg'))
-        os.system(cmd)
+        # Use an anonymous pipe to pass data to ffmpeg, so that it blocks waiting for more file data
+        pipe_read, pipe_write = os.pipe()
 
-        ###
-        # Here database query.
-        ###
-        thumbs_data = []
-        a_second = datetime.timedelta(seconds=1)
+        w = watcher.Watcher()
+        # Watch the video file for writes and close.
+        source_wd = w.add(srcpath, inotify.IN_MODIFY | inotify.IN_CLOSE_WRITE)
+        # Watch thumb dir for newly created thumbs.
+        thumbs_wd = w.add(finalpath, inotify.IN_CLOSE_WRITE)
 
-        for f in sorted(os.listdir(finalpath)):
-            file_dtime += a_second
-            thumbs_data.append((file_dtime , os.path.join(finalpath, f)))
+        # Call ffmpeg in other process with our pipe as source.
+        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
 
-        Thumb.objects.bulk_create(
-                [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumbs_data])
+        with open(srcpath, 'rb') as sourcef:
+
+            # Set nonblocking reads
+            orig_fl = fcntl.fcntl(sourcef, fcntl.F_GETFL)
+            fcntl.fcntl(sourcef, fcntl.F_SETFL, orig_fl | os.O_NONBLOCK)
+            
+            threshold = watcher.Threshold(sourcef.fileno(), 1024)
+
+            pipef = os.fdopen(pipe_write, 'wb')
+
+            while w.num_watches():
+                # The Watcher.read method returns a list of event objects.
+                for evt in w.read():
+                    mask_list = inotify.decode_mask(evt.mask)
+                    if evt.wd == source_wd and 'IN_MODIFY' in mask_list:
+                        if threshold():
+                            data = ''
+
+                            while True:
+                                new_data = sourcef.read()
+                                if not new_data:
+                                    break
+                                data += new_data
+
+                            pipef.write(data)
+                            
+                    if evt.wd == source_wd and 'IN_CLOSE_WRITE' in mask_list:
+                        pipef.close()
+                        ffmpeg_proc.wait()
+                        w.remove(source_wd)
+                        w.remove(thumbs_wd)
+                    if evt.wd == thumbs_wd and 'IN_CLOSE_WRITE' in mask_list:
+                        add_thumb(chan, file_dtime, evt.fullpath)
 
 
