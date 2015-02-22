@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 })
 
 
-.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, $cordovaSocialSharing, $ionicScrollDelegate) {
+.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, $cordovaSocialSharing, $ionicScrollDelegate, $interval) {
     //$scope.thumbnails = Thumbnails.get($stateParams.channelId)
     $scope.thumbnails = []
     Thumbnails.get($stateParams.channelId, $scope);
@@ -55,21 +55,27 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 	}
 
 	// funciones de grabacion
-	$scope.handle_mouse_down = function () {
+	$scope.handle_mousedown = function () {
+		console.log("hola");
+
 		$scope.pressed = true;
 		$scope.first_thumbnail = $scope.current_thumbnail;
+		$scope.stop = $interval($scope.tick, 1000);
 	}
 
-	$scope.handle_mouse_up = function () {
+	$scope.handle_mouseup = function () {
 		$scope.pressed = false;
 		$scope.last_thumbnail = $scope.current_thumbnail;
+		$scope.stop.cancel();
 
 		console.log("share_video");
+		$scope.share_video();
 		// share_video()
 	}
 
 	$scope.tick = function () {
 		if ($scope.pressed) {
+			console.log("hola");
 			// advance
 			$scope.go_to_thumbnail ($scope.thumbnail + 1)
 		}
