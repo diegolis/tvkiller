@@ -22,10 +22,16 @@ class Command(BaseCommand):
         #file_path = srcpath[:srcpath.rindex('/')+1]
         
         searchObj = re.search(r'(.*)_(.*)_(.*)_(.*)', file_name, re.M|re.I)
+        fdevice = searchObj.group(1)
+        fcamera = searchObj.group(2)
         fdate = searchObj.group(3)
         ftime = searchObj.group(4)
-        
-        file_datetime = datetime.datetime(fdate[:4], fdate[4:6], fdate[6:], ftime[:2], ftime[2:4])
+
+        file_datetime = datetime.datetime(int(fdate[:4]), 
+                                          int(fdate[4:6]), 
+                                          int(fdate[6:]), 
+                                          int(ftime[:2]), 
+                                          int(ftime[2:4]))
 
         finalpath = os.path.join(dstpath, fdate, ftime[:-2])
 
