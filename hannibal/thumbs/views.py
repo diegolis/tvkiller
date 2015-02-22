@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from thumbs.models import Channel, Thumb
+from thumbs.models import Channel, Thumb, Clip
 from sendfile import sendfile
+from datetime import timedelta
 import json
 
 def get_thumbs(request, channel_id):
@@ -16,19 +17,25 @@ def get_thumbs(request, channel_id):
             "isodate": thumb.datetime.isoformat(),
         })
 
-    return HttpResponse(json.dumps(data), content_type="application/json")
+    response = HttpResponse(json.dumps(data), content_type="application/json")
+    return response
+
 
 def get_thumb(request, thumb_id):
     """ Serves an image """
     t = get_object_or_404(Thumb, id=thumb_id)
     return sendfile(request, t.filename.path)
 
-def get_video(request, thumb_id, duration):
+def make_clip(request, thumb_id, duration):
     """
     Server the link to the video.
     """
-    thumb = Thumbs.objects.get(thumb_id)
-    clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime+duration)
-    # return HttpResponse(clip.url, content_type="text/plain")
-    # uncomment when models are updated
-    pass
+    thumb = get_object_or_404(Thumb, id=thumb_id)
+    clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime + timedelta(seconds=int(duration)))
+    return redirect(clip.get_absolute_url())
+
+
+def player(request, hashid):
+    """the page to view a clip"""
+    clip = get_object_or_404(Clip, hashid=hashid)
+    return render(request, 'player.html', {'clip': clip})

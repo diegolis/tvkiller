@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from thumbs.models import Thumb, Channel
+from thumbs.models import Thumb, Channel, Origin
 from django.conf import settings
 import inotify
 import os
@@ -8,7 +8,7 @@ import datetime
 
 class Command(BaseCommand):
     args = '<vid_file>'
-    help = 'Generates thumbnails for video'
+    help = 'Add the new origin video and generates its thumbnails'
 
     def handle(self, *args, **options):
         # srcpath = '/aaaaa/bbbb/cccc/ddd/eeeeeee_ffffffff_gggg.avi'
@@ -16,7 +16,9 @@ class Command(BaseCommand):
 
         srcpath, ffmpeg_bin = args[:2]
 
-        file_name = srcpath[srcpath.rindex('/')+1:-4]
+        basename = os.path.basename(srcpath)
+        file_name = os.path.splitext(basename)[0]
+
         #file_path = srcpath[:srcpath.rindex('/')+1]
 
         searchObj = re.search(r'(.*)_(.*)_(.*)_(.*)', file_name, re.M|re.I)
@@ -34,6 +36,7 @@ class Command(BaseCommand):
                                           int(ftime[:2]),
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
+        Origin.objects.create(channel=chan, start_time=file_dtime, filename=os.path.join('sources', basename))
 
         finalpath = os.path.join(str(chan.id), fdate, ftime[:-2])
         try:

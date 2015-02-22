@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.conf import settings
 import os
+from django.db.models import permalink
 from datetime import timedelta
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 from model_utils.fields import StatusField
@@ -77,8 +78,14 @@ class Clip(BaseVideo):
     hashid = models.CharField(max_length=10, unique=True, editable=False)
     status = StatusField()
 
+
+    @permalink
+    def get_absolute_url(self):
+        return ("player", [self.hashid])
+
     def save(self, *args, **kwargs):
-        self.hashids = hashids.encode(str(self.filename))
+
+        self.hashid = hashids.encode(*map(ord, str(self.filename)))
         return super(Clip, self).save(*args, **kwargs)
 
     @classmethod
@@ -86,7 +93,6 @@ class Clip(BaseVideo):
         """
         create (if needed) a clip instance for the channel and time segment given
         """
-
         # don't duplicate a clip already generated
         clip = Clip.objects.filter(channel=channel, start_time=start_time, end_time=end_time)
         if clip:
@@ -102,6 +108,8 @@ class Clip(BaseVideo):
         delta_start = (start_time - sources[0].start_time).seconds
         delta_end = (sources[-1].end_time - end_time).seconds
 
+
+        # the cut of the videos is a long process. it should be done in a celery task.
         if len(sources) == 1:
 
             clip_video = sources[0].movie.subclip(delta_start, sources[0].duration - delta_end)
@@ -116,7 +124,8 @@ class Clip(BaseVideo):
                                       end_time.strftime("%Y%m%d%H%M%S"))
 
         clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename), preset='ultrafast', threads=4)
-        clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename)
+        clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename, status=Clip.STATUS.done)
+
         return clip
 
 
