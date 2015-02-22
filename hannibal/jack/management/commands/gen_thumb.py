@@ -15,7 +15,6 @@ class Command(BaseCommand):
         # ffmpeg_bin = '/usr/bin/ffmpeg'
 
         srcpath, ffmpeg_bin = args[:2]
-        print srcpath, ffmpeg_bin
 
         file_name = srcpath[srcpath.rindex('/')+1:-4]
         #file_path = srcpath[:srcpath.rindex('/')+1]
@@ -56,7 +55,6 @@ class Command(BaseCommand):
         for f in sorted(os.listdir(finalpath)):
             file_dtime += a_second
             thumbs_data.append((file_dtime , os.path.join(finalpath, f)))
-        import ipdb; ipdb.set_trace()
 
         Thumb.objects.bulk_create(
                 [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumbs_data])
