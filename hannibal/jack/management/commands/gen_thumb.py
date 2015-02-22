@@ -44,7 +44,7 @@ class Command(BaseCommand):
         except:
             pass    # probably folders exists.
 
-        cmd = "%s -i %s -f image2 -vf fps=fps=1 %s"
+        cmd = "%s -i %s -f image2 -vf fps=fps=1;scale=320:240 %s"
         cmd = cmd % (ffmpeg_bin, srcpath, os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath, '%03d.jpg'))
         os.system(cmd)
 
