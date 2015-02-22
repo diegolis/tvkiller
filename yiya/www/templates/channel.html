@@ -1,6 +1,5 @@
 <ion-view title="{{channel.name}} - Choose an scene" class="channel-page">
 	<div class="bar bar-header bar-light">
-		<!--button class="button button-icon icon ion-chevron-left" href="#/channels/"></button-->
 		<ion-nav-bar>
 		  <ion-nav-back-button>
 		  </ion-nav-back-button>
@@ -14,7 +13,7 @@
 
 	<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true" on-scroll="set_position()">
 		<div style="width: 500000px">
-	      <img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
+	      <img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share_image(thumbnail)" />
 	     </div>
 	</ion-scroll>
 
@@ -24,8 +23,8 @@
 	</div>
 
 		
-		<div class="button-trigger"></div>
-		<div class="button-text" ng-click="share(thumbnail)" ng-hold="share_video(thumbnail)">
+		<div class="button-trigger" ng-click="share_image(thumbnail)" ng-hold="share_video(thumbnail)"></div>
+		<div class="button-text" >
 			Tap to shoot. Hold to rec.
 		</div>
 				
