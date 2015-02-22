@@ -44,7 +44,7 @@ class Command(BaseCommand):
             pass    # probably folders exists.
 
         cmd = "%s -i %s -f image2 -vf fps=fps=1 %s"
-        cmd = cmd % (ffmpeg_bin, srcpath, finalpath + '%03d.jpg')
+        cmd = cmd % (ffmpeg_bin, srcpath, os.path.join(finalpath, '%03d.jpg'))
         os.system(cmd)
 
         ###
@@ -53,11 +53,12 @@ class Command(BaseCommand):
         thumbs_data = []
         a_second = datetime.timedelta(seconds=1)
 
-        for f in os.listdir(finalpath):
+        for f in sorted(os.listdir(finalpath)):
             file_dtime += a_second
-            thumbs_data.append(file_dtime , os.path.join(finalpath, f))
+            thumbs_data.append((file_dtime , os.path.join(finalpath, f)))
+        import ipdb; ipdb.set_trace()
 
         Thumb.objects.bulk_create(
-                [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumb_data])
+                [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumbs_data])
 
 
