@@ -2,6 +2,9 @@ from django.db import models
 from django.db.models import Q
 from django.conf import settings
 import os
+from datetime import timedelta
+from moviepy.editor import VideoFileClip, concatenate_videoclips
+
 
 # Create your models here.
 class Channel(models.Model):
@@ -41,9 +44,21 @@ class BaseVideo(models.Model):
     end_time = models.DateTimeField(null=False)
     filename = models.FileField()
 
+    def __unicode__(self):
+        return unicode(self.filename)
+
+    @property
+    def movie(self):
+        """return a moviepy clip object"""
+        return VideoFileClip(self.filename.path)
+
+    @property
     def duration(self):
-        """ Returns deltatime """
-        return self.end_time - self.start_time
+        return self.movie.duration
+
+    def save(self, *args, **kwargs):
+        self.end_time = self.start_time + timedelta(seconds=self.duration)
+        return super(BaseVideo, self).save(*args, **kwargs)
 
 
 class Origin(BaseVideo):
@@ -68,9 +83,27 @@ class Clip(BaseVideo):
         if clip:
             return clip[0]
 
-        origin_begin = Origin.objects.filter(Q(start_time__range=(start_time, end_time) |
-                                  Q(end_time__range=(start_time, end_time)) |
-                                  Q(start_time_lte=start_time, end_time__gte=end_time)))
+        sources = list(Origin.objects.filter(Q(start_time__range=(start_time, end_time)) |
+                                             Q(end_time__range=(start_time, end_time)) |
+                                             Q(start_time__lte=start_time, end_time__gte=end_time)))
+
+        if not sources:
+            return None
+
+        delta_start = (start_time - sources[0].start_time).seconds
+        delta_end = (sources[-1].end_time - end_time).seconds
+
+        clip_video = concatenate_videoclips([s.movie for s in sources])
+        clip_video = clip_video.subclip(delta_start, clip_video.duration - delta_end)
+
+        filename = '%s_%s_%s.webm' % (channel.name, start_time.strftime("%Y%m%d%H%M%S"),
+                                      end_time.strftime("%Y%m%d%H%M%S"))
+
+        clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename))
+        clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename)
+        return clip
+
+
 
 class Thumb(models.Model):
     """
