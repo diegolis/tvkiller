@@ -1,5 +1,3 @@
-
-
 <ion-view title="{{channel.name}} - Choose an scene" class="channel-page">
 	<div class="bar bar-header bar-light">
 		<!--button class="button button-icon icon ion-chevron-left" href="#/channels/"></button-->
@@ -11,8 +9,8 @@
 
 	</div>
 
-
     <ion-content class="has-header">
+
 
 	<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true" on-scroll="set_position()">
 		<div style="width: 500000px">
@@ -21,12 +19,15 @@
 	</ion-scroll>
 
 
-<div class="range range-positive">
-  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position" ng-init="position=50; go_to_position(position);" class="video-scroll-range" >
-</div>
+	<div class="range">
+	  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position" ng-init="position=50; go_to_position(position);" class="video-scroll-range" >
+	</div>
 
-
+		
+		<div class="button-trigger"></div>
+		<div class="button-text">
+			Tap to shoot. Hold to rec.
+		</div>
+				
     </ion-content>
-
-
 </ion-view>
