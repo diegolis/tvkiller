@@ -1,7 +1,7 @@
 Django==1.7.4
 moviepy==0.2.2.11
 hashids==1.0.2
-django-model-utils=2.2
+django-model-utils==2.2
 python-inotify==0.6-test  # Needs <Python.h> from the python-dev
 subprocess32==3.2.6
 django-sendfile==0.3.6
