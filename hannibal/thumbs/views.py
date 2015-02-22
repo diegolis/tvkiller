@@ -22,3 +22,13 @@ def get_thumb(request, thumb_id):
     """ Serves an image """
     t = get_object_or_404(Thumb, id=thumb_id)
     return sendfile(request, t.filename.path)
+
+def get_video(request, thumb_id, duration)
+    """
+    Server the link to the video.
+    """
+    thumb = Thumbs.objects.get(thumb_id)
+    clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime+duration)
+    # return HttpResponse(clip.url, content_type="text/plain")
+    # uncomment when models are updated
+    pass
