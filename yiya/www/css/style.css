@@ -18,7 +18,7 @@ html {
 
 .channels-list {
   background-color: #05255c;
-  background-color: #2E61C2; }
+  background-color: #2e61c2; }
   .channels-list h2 {
     font-weight: 100;
     text-align: center;
@@ -93,21 +93,29 @@ html {
             max-height: 65px; }
 
 .channel-page {
-  background-color: #F7F7F7; }
-  .channel-page .scroll-container {
-    height: 300px;
-    width: 100%;
+  background-color: #F7F7F7;
+  background-color: #2e61c2; }
+  .channel-page .scroll {
+    width: 320px;
+    margin: 0 auto;
+    margin-top: 20px; }
+  .channel-page .scroll-view {
     background-color: gray; }
+  .channel-page .range {
+    padding: 0; }
   .channel-page .video-scroll-range {
-    overflow: visible; }
+    -webkit-appearance: none;
+    overflow: visible;
+    margin: 0;
+    height: 8px;
+    background-color: white;
+    background-color: white; }
     .channel-page .video-scroll-range::-webkit-slider-thumb {
       background: none;
       box-shadow: none;
       border-radius: 0;
       overflow: visible;
-      width: 0;
-      -webkit-appearance: none;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5); }
+      width: 0; }
       .channel-page .video-scroll-range::-webkit-slider-thumb:after {
         -webkit-appearance: none;
         content: url("../img/tvkiller_slider_pointer.svg");
@@ -116,14 +124,40 @@ html {
         padding: 0 !important;
         margin: 0 !important;
         display: block;
-        top: -25px;
-        z-index: 10000; }
+        top: 5px;
+        left: -20px; }
+      .channel-page .video-scroll-range::-webkit-slider-thumb:before {
+        background-color: #a9db60;
+        height: 8px;
+        top: 10px; }
     .channel-page .video-scroll-range:after {
       content: '';
-      width: 21px;
+      width: 50px;
       height: 40px;
-      background-color: #F7F7F7;
+      background-color: #2e61c2;
       display: block;
       position: absolute;
-      left: 0;
-      bottom: 0; }
+      left: -50px;
+      top: 210px; }
+  .channel-page .button-trigger {
+    width: 90px;
+    height: 90px;
+    background-color: #a9db60;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    display: block;
+    margin: 100px auto 0;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); }
+    .channel-page .button-trigger:hover, .channel-page .button-trigger:focus {
+      background-color: red; }
+  .channel-page .button-text {
+    font-family: "Roboto", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 15px;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
+    color: white; }

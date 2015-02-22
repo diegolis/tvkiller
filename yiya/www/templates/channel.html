@@ -1,27 +1,24 @@
-
-
 <ion-view title="channel.name" ng-init="init()" class="channel-page">
 	<div class="bar bar-header bar-light">
 		<button class="button button-icon icon ion-chevron-left"></button>
 		<h1 class="title">Choose an scene</h1>
 	</div>
 
-
     <ion-content class="has-header">
+		<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true">
+			<div style="width: 500000px">
+				<img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
+			</div>
+		</ion-scroll>
 
-	<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true">
-		<div style="width: 500000px">
-	      <img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
-	     </div>
-	</ion-scroll>
-
-
-<div class="range range-positive">
-  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position"  class="video-scroll-range">
-</div>
-
-
+		<div class="range">
+			<input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position"  class="video-scroll-range">
+		</div>
+		
+		<div class="button-trigger"></div>
+		<div class="button-text">
+			Tap to shoot. Hold to rec.
+		</div>
+				
     </ion-content>
-
-
 </ion-view>
