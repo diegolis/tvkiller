@@ -20,6 +20,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 	$scope.share = function (thumbnail) {
 	    $cordovaSocialSharing.share('Look this image', $scope.channel.name, null, thumbnail.src);
 	}
+
+    // share anywhere
+	$scope.share_video = function (thumbnail) {
+	    $cordovaSocialSharing.share('Look this video', $scope.channel.name, null, thumbnail.src);
+	}
 	
 	$scope.go_to_position = function (position) {
 		$ionicScrollDelegate.$getByHandle("carousel").scrollTo(position/100*$scope.thumbnails.length*IMG_WIDTH, 0, true);
