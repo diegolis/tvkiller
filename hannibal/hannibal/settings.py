@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'thumbs',
     'jack',
+    'sendfile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,5 +86,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-THUMB_DIR = os.path.join(BASE_DIR, 'public')
+THUMB_DIR = 'thumbs'  # relative to media root
+HASHID_SALT = "this is the dummy salt"   # change this in production
+SENDFILE_BACKEND = 'sendfile.backends.simple'

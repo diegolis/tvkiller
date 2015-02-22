@@ -23,7 +23,7 @@ def get_thumb(request, thumb_id):
     t = get_object_or_404(Thumb, id=thumb_id)
     return sendfile(request, t.filename.path)
 
-def get_video(request, thumb_id, duration)
+def get_video(request, thumb_id, duration):
     """
     Server the link to the video.
     """
