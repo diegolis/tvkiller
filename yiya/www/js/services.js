@@ -9,19 +9,26 @@ function parse_thumbnails(thumbnails) {
 
 function get_thumbnails($http, $log, $scope, channel_id) {
     var url = BASE_URL + "get_thumbs/" + channel_id;
-    var retval = [];
 
     $http.get(url)
     .success(function(data, status, headers, config) {
     	data = parse_thumbnails(data);
     	$scope.thumbnails = data;
-        //retval = data;
     })
     .error(function(data, status, headers, config) {
     	$scope.thumbnails = [];
-        //retval = []
     });
-    //return retval;
+};
+
+function get_video_url($http, $log, $scope, thumb_id, duration) {
+    var url = BASE_URL + "make_clip/" + thumb_id + "/" + duration;
+    $http.get(url)
+    .success(function(data, status, headers, config) {
+        $scope.video_url = data.clip_url;
+    })
+    .error(function(data, status, headers, config) {
+        $scope.video_url = "";
+    });
 };
 
 angular.module('starter.services', [])
@@ -45,8 +52,6 @@ angular.module('starter.services', [])
     }
 })
 
-
-
 .factory('Thumbnails', function () {
     return {
     	get: function(channel_id, $scope) {
@@ -61,7 +66,6 @@ angular.module('starter.services', [])
     }
 })
 
-
 .factory('GoodThumbnails', function ($http, $log) {
     return {
     	get: function(channel_id, $scope) {
@@ -69,3 +73,13 @@ angular.module('starter.services', [])
     	}
     }
 })
+
+.factory('Video', function($http, $log) {
+    return {
+        get: function(thumb_id, duration, $scope) {
+            /* Given the thumb id and the duration, 
+             * returns the URL of the video. */
+            return get_video_url($http, $log, $scope, thumb_id, duration);
+        }
+    };
+});
