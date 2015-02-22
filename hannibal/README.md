@@ -23,7 +23,7 @@ cd /home/infoxel && git clone https://github.com/diegolis/tvkiller.git
 cd /home/infoxel/tvkiller/hannibal
 ```
 
-### fullfill requirements
+### fulfill requirements
 `pip install -r requirements.txt`
 
 ### edit local settings
