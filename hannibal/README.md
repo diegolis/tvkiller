@@ -20,11 +20,13 @@ mkdir $WORKON_HOME
 
 ```
 cd /home/infoxel && git clone https://github.com/diegolis/tvkiller.git
-cd /home/infoxel/tvkiller/hannibal
 ```
 
 ### fulfill requirements
-`pip install -r requirements.txt`
+```
+cd /home/infoxel/tvkiller/hannibal
+pip install -r requirements.txt
+```
 
 ### edit local settings
 
@@ -32,16 +34,30 @@ cd /home/infoxel/tvkiller/hannibal
 cat tvkiller/hannibal/local_settings.py
 
 FFMPEG = '/usr/bin/ffmpeg'
-SOURCE = '/var/www/source_videos_tvkiller/'
+SOURCE = '/var/www/multimedia/ar/tvkiller/videos/'
 ```
+
+### edit settings
+
+* define some variables
+
+```
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+THUMB_DIR = 'thumbs'  # relative to media root
+HASHID_SALT = "this is the dummy salt"   # change this in production
+SENDFILE_BACKEND = 'sendfile.backends.simple'
+```
+* define some variables
 
 ### load initial data
 
-`python manage.py loadddata thumbs/fixtures/hannibal__thumbs__channel.json`
-
+```
+python manage.py loaddata thumbs/fixtures/initial_channel.json`
+```
 
 ### setup crontab
-
 
 ```
 # generate thumbs for new videos
