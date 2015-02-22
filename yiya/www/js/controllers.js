@@ -8,7 +8,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 })
 
 
-.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, $cordovaSocialSharing, $ionicScrollDelegate, $interval) {
+.controller('ChannelCtrl', function($scope, $stateParams, Channels, Thumbnails, Video, $cordovaSocialSharing, $ionicScrollDelegate, $interval) {
     //$scope.thumbnails = Thumbnails.get($stateParams.channelId)
     $scope.thumbnails = []
     Thumbnails.get($stateParams.channelId, $scope);
@@ -27,14 +27,19 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     // share anywhere
 	$scope.share_video = function () {
 		//call to api
-		thumbnail = $scope.thumbnails[$scope.current_thumbnail]
-	    $cordovaSocialSharing.share('Look this video', $scope.channel.name, null, thumbnail.src);
+	    Video.get($scope.thumbnails[$scope.first_thumbnail].id, int($scope.last_thumbnail - $scope.first_thumbnail + 1),
+	    		function (data) {
+			        $scope.video_url = data.clip_url;
+				    $cordovaSocialSharing.share('Look this video', $scope.channel.name, null, $scope.video_url);
+	    		}
+	    	);
+
 	}
 
 	// cuando se mueve el slider	
 	$scope.go_to_position = function (position) {
 		// convert position to current_thumbnail
-		$scope.current_thumbnail = position/100*$scope.thumbnails.length
+		$scope.current_thumbnail = position/100*$scope.thumbnails.length;
 
 		// mueve el carousel
 		$ionicScrollDelegate.$getByHandle("carousel").scrollTo($scope.current_thumbnail*IMG_WIDTH, 0, true);
@@ -45,39 +50,40 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 		// convert current_thumbnail to position
 		$scope.position = $scope.current_thumbnail * 100 / $scope.thumbnails.length;
 
-		// mover el slider (pero no sabemos cómo se hace)
+		// mover el slider
+		if (!$scope.moving_carousel)
+			$ionicScrollDelegate.$getByHandle("carousel").scrollTo($scope.current_thumbnail*IMG_WIDTH, 0, true);
+
 	}
 
 	// cuando se mueve el carousel
 	$scope.set_position = function () {
+		$scope.moving_carousel = true;
 		pos = $ionicScrollDelegate.$getByHandle("carousel").getScrollPosition().left;
 		$scope.go_to_thumbnail(pos / IMG_WIDTH)
+		$scope.moving_carousel = false;
 	}
 
 	// funciones de grabacion
 	$scope.handle_mousedown = function () {
-		console.log("hola");
-
 		$scope.pressed = true;
 		$scope.first_thumbnail = $scope.current_thumbnail;
-		$scope.stop = $interval($scope.tick, 1000);
+		$scope.stop = $interval($scope.tick, 300);
 	}
 
 	$scope.handle_mouseup = function () {
 		$scope.pressed = false;
 		$scope.last_thumbnail = $scope.current_thumbnail;
-		$scope.stop.cancel();
+		$interval.cancel($scope.stop);
 
-		console.log("share_video");
 		$scope.share_video();
-		// share_video()
+
 	}
 
 	$scope.tick = function () {
 		if ($scope.pressed) {
-			console.log("hola");
 			// advance
-			$scope.go_to_thumbnail ($scope.thumbnail + 1)
+			$scope.go_to_thumbnail ($scope.current_thumbnail + 1)
 		}
 	}
 

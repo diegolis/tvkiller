@@ -1,4 +1,4 @@
-var BASE_URL = "http://192.168.0.116:8000/";
+var BASE_URL = "http://clips.infoad.tv:34455/";
 
 function parse_thumbnails(thumbnails) {
 	for (var i=0; i<thumbnails.length; i++) {
@@ -20,14 +20,13 @@ function get_thumbnails($http, $log, $scope, channel_id) {
     });
 };
 
-function get_video_url($http, $log, $scope, thumb_id, duration) {
+function get_video_url($http, $log, $scope, thumb_id, duration, func) {
     var url = BASE_URL + "make_clip/" + thumb_id + "/" + duration;
     $http.get(url)
     .success(function(data, status, headers, config) {
-        $scope.video_url = data.clip_url;
+    	func(data);
     })
     .error(function(data, status, headers, config) {
-        $scope.video_url = "";
     });
 };
 
@@ -58,6 +57,7 @@ angular.module('starter.services', [])
     		var res = [];
     		for (i=1;i<=639;i++) {
     			res.push({
+    				id: i,
     				src: "img/thumbs/" + i + ".jpg",
     			});
     		}
