@@ -51,7 +51,7 @@ angular.module('starter.services', [])
     }
 })
 
-.factory('Thumbnails', function () {
+.factory('FakeThumbnails', function () {
     return {
     	get: function(channel_id, $scope) {
     		var res = [];
@@ -66,7 +66,7 @@ angular.module('starter.services', [])
     }
 })
 
-.factory('GoodThumbnails', function ($http, $log) {
+.factory('Thumbnails', function ($http, $log) {
     return {
     	get: function(channel_id, $scope) {
         	return get_thumbnails($http, $log, $scope, channel_id);

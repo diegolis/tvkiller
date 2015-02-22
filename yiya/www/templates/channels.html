@@ -5,6 +5,8 @@
 	</div>
 
 	<ion-content class="has-header">
+		<h1 class="tvkiller-logo"></h1>
+	
 		<h2>What are you watching now?</h2>
 		<!-- div class="list list-inset">
 			<label class="item item-input">
@@ -18,7 +20,7 @@
 			<ion-item ng-repeat="channel in channels" href="#/channels/{{channel.id}}">
 				<div class="channel-logo">
 					<div class="channel-logo-fix">
-						<img src="{{channel.logo}}">
+						<img src="img/channels/channel_{{channel.id}}.png">
 					</div>	
 				</div>	
 				<div class="channel-name">
@@ -42,4 +44,9 @@
 		</ion-list -->
 
 	</ion-content>
+
+	<div class="footer-bar">
+		Made with <span class="ion-heart"></span> in Tanti
+	</div>
+	
 </ion-view>

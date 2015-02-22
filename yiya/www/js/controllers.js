@@ -27,7 +27,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     // share anywhere
 	$scope.share_video = function () {
 		//call to api
-	    Video.get($scope.thumbnails[$scope.first_thumbnail].id, int($scope.last_thumbnail - $scope.first_thumbnail + 1),
+	    Video.get($scope.thumbnails[$scope.first_thumbnail].id, Math.round($scope.last_thumbnail - $scope.first_thumbnail + 1),
 	    		function (data) {
 			        $scope.video_url = data.clip_url;
 				    $cordovaSocialSharing.share('Look this video', $scope.channel.name, null, $scope.video_url);
