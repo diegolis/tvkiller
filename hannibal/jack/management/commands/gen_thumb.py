@@ -8,6 +8,7 @@ import re
 import datetime
 import fcntl
 import subprocess32
+import threading
 
 def add_thumb(channel, base_dtime, path):
     """ Process the path of a newly added thumb and add the corresponding objecto to the db. """
@@ -73,28 +74,41 @@ class Command(BaseCommand):
 
             pipef = os.fdopen(pipe_write, 'wb')
 
-            while w.num_watches():
-                # The Watcher.read method returns a list of event objects.
-                for evt in w.read():
-                    mask_list = inotify.decode_mask(evt.mask)
-                    if evt.wd == source_wd and 'IN_MODIFY' in mask_list:
-                        if threshold():
-                            data = ''
+            timer = None
+            # Lock will let us call the "close_all" func below in another thread safely.
+            lock = threading.Lock()
 
-                            while True:
-                                new_data = sourcef.read()
-                                if not new_data:
-                                    break
-                                data += new_data
+            # Store this separately so that we access w only inside the lock.
+            nwatches = w.num_watches()
+            while nwatches:
+                with lock:
+                    # The Watcher.read method returns a list of event objects.
+                    for evt in w.read():
+                        mask_list = inotify.decode_mask(evt.mask)
+                        if evt.wd == source_wd and 'IN_MODIFY' in mask_list:
+                            if threshold():
+                                data = ''
 
-                            pipef.write(data)
-                            
-                    if evt.wd == source_wd and 'IN_CLOSE_WRITE' in mask_list:
-                        pipef.close()
-                        ffmpeg_proc.wait()
-                        w.remove(source_wd)
-                        w.remove(thumbs_wd)
-                    if evt.wd == thumbs_wd and 'IN_CLOSE_WRITE' in mask_list:
-                        add_thumb(chan, file_dtime, evt.fullpath)
+                                while True:
+                                    new_data = sourcef.read()
+                                    if not new_data:
+                                        break
+                                    data += new_data
 
-
+                                pipef.write(data)
+                                
+                        if evt.wd == source_wd and 'IN_OPEN' in mask_list:
+                            if timer is not None:
+                                timer.cancel()
+                        if evt.wd == source_wd and 'IN_CLOSE_WRITE' in mask_list:
+                            def close_all():
+                                with lock:
+                                    pipef.close()
+                                    ffmpeg_proc.wait()
+                                    w.remove(source_wd)
+                                    w.remove(thumbs_wd)
+                            timer = threading.Timer(60, close_all)
+                        if evt.wd == thumbs_wd and 'IN_CLOSE_WRITE' in mask_list:
+                            add_thumb(chan, file_dtime, evt.fullpath)
+                    
+                    nwatches = w.num_watches()
