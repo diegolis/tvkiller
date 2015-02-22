@@ -26,3 +26,13 @@ def get_thumb(request, thumb_id):
     except OSError:
         return HttpResponse(status=404)
     return HttpResponse(content, content_type="image/jpeg")
+
+def get_video(request, thumb_id, duration)
+    """
+    Serves temporal object if the video is not processed.
+    When the video is processed, server the link to the video.
+    """
+    thumb = Thumbs.objects.get(thumb_id)
+    clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime+duration)
+    return HttpResponse(clip.url, content_type="text/plain")
+    
