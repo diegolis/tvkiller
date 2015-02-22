@@ -16,8 +16,8 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 	    $cordovaSocialSharing.share('Look this image', $scope.channel.name, null, thumbnail.src);
 	}
 	
-	$scope.go_to_thumbnail = function (thumbnail) {
-	    $cordovaSocialSharing.share('Look this image', $scope.channel.name, null, thumbnail.src);
+	$scope.go_to_thumbnail = function (position) {
+		//alert(position);
 	}
 
 })
