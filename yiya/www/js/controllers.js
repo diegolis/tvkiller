@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
 
 .controller('ChannelsCtrl', function($scope, Channels) {
@@ -6,7 +6,7 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 
-.controller('ChannelCtrl', function($scope, $stateParams, Thumbnails) {
+.controller('ChannelCtrl', function($scope, $stateParams, Thumbnails, $cordovaSocialSharing) {
     $scope.thumbnails = Thumbnails.get($stateParams.channelId)
 
     // share anywhere
