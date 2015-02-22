@@ -6,3 +6,4 @@ python-inotify==0.6-test  # Needs <Python.h> from the python-dev
 subprocess32==3.2.6
 django-sendfile==0.3.6
 wsgiref==0.1.2
+django-cors-headers==1.0.0
