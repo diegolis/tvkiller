@@ -12,7 +12,7 @@ def get_thumbs(request, channel_id):
     for thumb in thumbs.iterator():
         data.append({
             "id": thumb.id,
-            "filepath": thumb.filepath(),
+            "isodate": thumb.datetime.isoformat(),
         })
 
     return HttpResponse(json.dumps(data), content_type="application/json")

@@ -1,0 +1,41 @@
+[
+{
+  "fields": {
+    "device_slot": "tin",
+    "name": "tin",
+    "device_name": "tin"
+  },
+  "model": "thumbs.channel",
+  "pk": 1
+},
+{
+  "fields": {
+    "start_time": "2015-02-21T22:00:00Z",
+    "end_time": "2015-02-21T22:13:02.440Z",
+    "channel": 1,
+    "filename": "./fragmento1.mp4"
+  },
+  "model": "thumbs.origin",
+  "pk": 1
+},
+{
+  "fields": {
+    "start_time": "2015-02-21T22:13:03Z",
+    "end_time": "2015-02-21T22:23:20.600Z",
+    "channel": 1,
+    "filename": "./fragmento2.mp4"
+  },
+  "model": "thumbs.origin",
+  "pk": 2
+},
+{
+  "fields": {
+    "start_time": "2015-02-21T22:23:21Z",
+    "end_time": "2015-02-21T22:32:21.040Z",
+    "channel": 1,
+    "filename": "./fragmento3.mp4"
+  },
+  "model": "thumbs.origin",
+  "pk": 3
+}
+]
