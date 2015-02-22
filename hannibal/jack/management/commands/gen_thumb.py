@@ -27,6 +27,9 @@ class Command(BaseCommand):
         fdate = searchObj.group(3)
         ftime = searchObj.group(4)
 
+        # If channel doesn't exist, let the command die
+        chan = Channel.objects.get(device_name=fdevice, device_slot=fcamera)
+
         file_datetime = datetime.datetime(int(fdate[:4]), 
                                           int(fdate[4:6]), 
                                           int(fdate[6:]), 
@@ -47,3 +50,7 @@ class Command(BaseCommand):
         ###
         # Here database query.
         ###
+        Thumb.objects.bulk_create(
+                [Thumb(channel=chan, datetime=d, filename=f) for d, f in thumb_data])
+
+
