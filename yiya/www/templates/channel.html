@@ -1,32 +1,32 @@
-<ion-view title="{{channel.name}} - Choose an scene" class="channel-page">
+<ion-view title="{{channel.name}} / Choose an scene" class="channel-page">
 	<div class="bar bar-header bar-light">
 		<ion-nav-bar>
-		  <ion-nav-back-button>
-		  </ion-nav-back-button>
+			<ion-nav-back-button class="icon ion-chevron-left"></ion-nav-back-button>
 		</ion-nav-bar>
-
-
 	</div>
 
     <ion-content class="has-header">
 
+		<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true" on-scroll="set_position()">
+			<div style="width: 500000px">
+				<img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share(thumbnail)" />
+			</div>
+		</ion-scroll>
 
-	<ion-scroll  delegate-handle="carousel" zooming="true" direction="x" style="width: 320px; height: 240px" paging="true" on-scroll="set_position()">
-		<div style="width: 500000px">
-	      <img ng-repeat="thumbnail in thumbnails" src="{{thumbnail.src}}" ng-click="share_image(thumbnail)" />
-	     </div>
-	</ion-scroll>
-
-
-	<div class="range">
-	  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position" ng-init="position=50; go_to_position(position);" class="video-scroll-range" >
-	</div>
-
+		<div class="range">
+		  <input type="range" name="volume" ng-change="go_to_position(position)" ng-model="position" ng-init="position=50; go_to_position(position);" class="video-scroll-range" >
+		</div>
 		
-		<div class="button-trigger" ng-click="share_image(thumbnail)" ng-hold="share_video(thumbnail)"></div>
-		<div class="button-text" >
+		<button class="button-trigger"></button>
+
+		<div class="button-text" ng-click="share(thumbnail)" ng-hold="share_video(thumbnail)">
 			Tap to shoot. Hold to rec.
 		</div>
-				
+
     </ion-content>
+
+	<div class="footer-bar">
+		Made with <span class="ion-heart"></span> in Tanti
+	</div>
+
 </ion-view>

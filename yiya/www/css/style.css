@@ -1,4 +1,9 @@
 @import url("http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic");
+/*
+$color-text-general: #333333;
+$color-app-general: #EEEEEE;
+$color-app-complementary: #2E61C2;
+*/
 body,
 html {
   font-family: "Roboto", Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -12,15 +17,40 @@ html {
   -webkit-font-smoothing: antialiased;
   -webkit-font-smoothing: subpixel-antialiased; }
 
-.bar .button.button-icon:before, .bar .button.button-icon.icon-left:before, .bar .button.button-icon.icon-right:before,
-.bar .button.button-icon .icon:before {
-  font-size: 18px; }
+.bar .icon {
+  border: none; }
+  .bar .icon:before, .bar .icon.icon-left:before, .bar .icon.icon-right:before,
+  .bar .icon .icon:before {
+    font-size: 18px; }
+
+.footer-bar {
+  background: none;
+  border: none;
+  text-align: center;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 12px;
+  padding: 6px 0;
+  opacity: 0.4; }
+
+.tvkiller-logo {
+  width: 250px;
+  height: 150px;
+  display: block;
+  margin: 0 auto;
+  background-image: url("../img/tvkiller_logo.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain; }
 
 .channels-list {
   background-color: #05255c;
   background-color: #2e61c2; }
   .channels-list h2 {
-    font-weight: 100;
+    font-weight: 300;
     text-align: center;
     margin-top: 50px;
     margin-bottom: 40px;
@@ -57,8 +87,7 @@ html {
       overflow: visible;
       border: none;
       background: none;
-      margin-bottom: 45px;
-      text-align: left; }
+      margin-bottom: 45px; }
       .channels-list ion-list .item-complex .item-content {
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -70,15 +99,14 @@ html {
         background-color: white;
         padding: 0;
         margin: 0 auto;
-        overflow: visible;
-        margin: 0; }
+        overflow: visible; }
       .channels-list ion-list .item-complex .channel-name {
         position: absolute;
         top: 92px;
         left: 0;
         width: 100%;
         font-size: 15px;
-        font-weight: 100;
+        font-weight: 300;
         color: white; }
       .channels-list ion-list .item-complex .channel-logo {
         display: table;
@@ -132,27 +160,35 @@ html {
         top: 10px; }
     .channel-page .video-scroll-range:after {
       content: '';
-      width: 50px;
+      width: 2000px;
       height: 40px;
       background-color: #2e61c2;
       display: block;
       position: absolute;
-      left: -50px;
+      left: -2000px;
       top: 210px; }
   .channel-page .button-trigger {
-    width: 90px;
-    height: 90px;
-    background-color: #a9db60;
+    -webkit-transition: all ease-in-out 0.3s;
+    -moz-transition: all ease-in-out 0.3s;
+    -ms-transition: all ease-in-out 0.3s;
+    -o-transition: all ease-in-out 0.3s;
+    transition: all ease-in-out 0.3s;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    background-color: #a9db60;
     display: block;
     margin: 100px auto 0;
     cursor: pointer;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); }
-    .channel-page .button-trigger:hover, .channel-page .button-trigger:focus {
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+    border: none;
+    border: 10px solid transparent; }
+    .channel-page .button-trigger:hover, .channel-page .button-trigger:focus, .channel-page .button-trigger.activated {
+      border: 5px solid white;
       background-color: red; }
   .channel-page .button-text {
     font-family: "Roboto", Arial, "Helvetica Neue", Helvetica, sans-serif;
