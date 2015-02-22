@@ -52,3 +52,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+# Angular
+node_modules/
+platforms/
+plugins/
