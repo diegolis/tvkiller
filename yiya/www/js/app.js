@@ -32,7 +32,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   .state('channel', {
       url: "/channels/:channelId",
       templateUrl: "templates/channel.html",
-      //controller: 'ChannelsCtrl'
+      controller: 'ChannelCtrl'
   });
 
 

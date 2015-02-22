@@ -5,3 +5,8 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.channels = Channels.all()
 })
 
+
+.controller('ChannelCtrl', function($scope, $stateParams, Thumbnails) {
+    $scope.thumbnails = Thumbnails.get($stateParams.channelId)
+})
+

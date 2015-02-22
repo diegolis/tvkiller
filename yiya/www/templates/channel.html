@@ -1,7 +1,12 @@
 <ion-view title="Channel">
     <ion-content class="has-header">
         <div class="list card">
-        sdfsdf
+
+        <div class="scroll-container" style="overflow-y: hidden; width:100%">
+	      <div ng-repeat="thumbnail in thumbnails" style="display:inline; float:left">
+	          <img src="{{thumbnail.src}}" />
+	    </div>
+        	
         </div>
     </ion-content>
 </ion-view>
