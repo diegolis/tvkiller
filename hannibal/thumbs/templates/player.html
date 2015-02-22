@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TvKiller - Clip from {{ clip.channel }} at {{ clip.start_time }} </title>
+
+
+<link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+<script src="//vjs.zencdn.net/4.12/video.js"></script>
+
+</head>
+<body>
+
+{% if clip.status == clip.STATUS.done %}
+
+  <video id="" class="video-js vjs-default-skin" controls preload="none" width="{{ clip.movie.size.0 }}" height="{{ clip.movie.size.1 }}" poster="" data-setup='{"controls": true, "autoplay": false}' >
+        <source src="{{ clip.filename.url }}" type='video/webm' />
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+  </video>
+
+  {% else %}
+
+<p>
+    el video esta siendo procesado</p>
+
+  {% endif %}
+
+
+</body>
+</html>

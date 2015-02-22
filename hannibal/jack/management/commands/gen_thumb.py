@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
-from thumbs.models import Thumb, Channel
+from thumbs.models import Thumb, Channel, Origin
+from django.conf import settings
 
 from inotify import watcher
 import inotify
@@ -22,7 +23,7 @@ def add_thumb(channel, base_dtime, path):
 
 class Command(BaseCommand):
     args = '<vid_file>'
-    help = 'Generates thumbnails for video'
+    help = 'Add the new origin video and generates its thumbnails'
 
     def handle(self, *args, **options):
         # srcpath = '/aaaaa/bbbb/cccc/ddd/eeeeeee_ffffffff_gggg.avi'
@@ -30,7 +31,9 @@ class Command(BaseCommand):
 
         srcpath, ffmpeg_bin = args[:2]
 
-        file_name = srcpath[srcpath.rindex('/')+1:-4]
+        basename = os.path.basename(srcpath)
+        file_name = os.path.splitext(basename)[0]
+
         #file_path = srcpath[:srcpath.rindex('/')+1]
 
         searchObj = re.search(r'(.*)_(.*)_(.*)_(.*)', file_name, re.M|re.I)
@@ -42,17 +45,17 @@ class Command(BaseCommand):
         # If channel doesn't exist, let the command die
         chan = Channel.objects.get(device_name=fdevice, device_slot=fcamera)
 
-        file_dtime = datetime.datetime(int(fdate[:4]), 
-                                          int(fdate[4:6]), 
-                                          int(fdate[6:]), 
-                                          int(ftime[:2]), 
+        file_dtime = datetime.datetime(int(fdate[:4]),
+                                          int(fdate[4:6]),
+                                          int(fdate[6:]),
+                                          int(ftime[:2]),
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
+        Origin.objects.create(channel=chan, start_time=file_dtime, filename=os.path.join('sources', basename))
 
-        finalpath = os.path.join(chan.base_dir(), fdate, ftime[:-2])
-
+        finalpath = os.path.join(str(chan.id), fdate, ftime[:-2])
         try:
-            os.makedirs(finalpath)
+            os.makedirs(os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath))
         except:
             pass    # probably folders exists.
 
@@ -66,7 +69,7 @@ class Command(BaseCommand):
         thumbs_wd = w.add(finalpath, inotify.IN_CLOSE_WRITE)
 
         # Call ffmpeg in other process with our pipe as source.
-        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
+        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-vf', 'fps=fps=1', os.path.join(settings.MEDIA_ROOT, settings.THUMB_DIR, finalpath, '%03d.jpg')], stdin=pipe_read)
 
         with open(srcpath, 'rb') as sourcef:
 

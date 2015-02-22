@@ -38,10 +38,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'thumbs',
     'jack',
+    'corsheaders',
+    'sendfile',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -49,6 +52,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = 'hannibal.urls'
 
@@ -85,5 +92,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-THUMB_DIR = os.path.join(BASE_DIR, 'public')
+THUMB_DIR = 'thumbs'  # relative to media root
+HASHID_SALT = "this is the dummy salt"   # change this in production
+SENDFILE_BACKEND = 'sendfile.backends.simple'
