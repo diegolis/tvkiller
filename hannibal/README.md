@@ -37,9 +37,7 @@ FFMPEG = '/usr/bin/ffmpeg'
 SOURCE = '/var/www/multimedia/ar/tvkiller/videos/'
 ```
 
-### edit settings
-
-* define some variables
+### edit settings to include these variables
 
 ```
 STATIC_URL = '/static/'
@@ -49,7 +47,6 @@ THUMB_DIR = 'thumbs'  # relative to media root
 HASHID_SALT = "this is the dummy salt"   # change this in production
 SENDFILE_BACKEND = 'sendfile.backends.simple'
 ```
-* define some variables
 
 ### load initial data
 
