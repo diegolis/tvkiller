@@ -85,7 +85,7 @@ class Clip(BaseVideo):
 
     def save(self, *args, **kwargs):
 
-        self.hashid = hashids.encode(*map(ord, str(self.filename)))
+        self.hashid = hashids.encode(*map(ord, str(self.filename)))[0:10]
         return super(Clip, self).save(*args, **kwargs)
 
     @classmethod
