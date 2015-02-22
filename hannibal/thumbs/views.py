@@ -29,10 +29,10 @@ def get_thumb(request, thumb_id):
 
 def get_video(request, thumb_id, duration)
     """
-    Serves temporal object if the video is not processed.
-    When the video is processed, server the link to the video.
+    Server the link to the video.
     """
     thumb = Thumbs.objects.get(thumb_id)
     clip = Clip.create_from_channel(thumb.channel, thumb.datetime, thumb.datetime+duration)
-    return HttpResponse(clip.url, content_type="text/plain")
-    
+    # return HttpResponse(clip.url, content_type="text/plain")
+    # uncomment when models are updated
+    pass
