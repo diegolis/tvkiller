@@ -46,25 +46,23 @@ angular.module('starter.services', [])
 })
 
 
-/*
 
 .factory('Thumbnails', function () {
     return {
-    	get: function() {
+    	get: function(channel_id, $scope) {
     		var res = [];
     		for (i=1;i<=639;i++) {
     			res.push({
     				src: "img/thumbs/" + i + ".jpg",
     			});
     		}
-    		return res;
+    		$scope.thumbnails = res;
     	}
     }
 })
-*/
 
 
-.factory('Thumbnails', function ($http, $log) {
+.factory('GoodThumbnails', function ($http, $log) {
     return {
     	get: function(channel_id, $scope) {
         	return get_thumbnails($http, $log, $scope, channel_id);
