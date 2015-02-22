@@ -1,27 +1,27 @@
 var BASE_URL = "http://192.168.0.116:8000/";
 
 function parse_thumbnails(thumbnails) {
-	for (var thumbnail in thumbnails) {
-		thumbnail.src = BASE_URL + "get_thumb/" + thumbnail.id
+	for (var i=0; i<thumbnails.length; i++) {
+		thumbnails[i].src = BASE_URL + "get_thumb/" + thumbnails[i].id
 	}
-
+	return thumbnails;
 }
 
-function get_thumbnails($http, $log, channel_id) {
+function get_thumbnails($http, $log, $scope, channel_id) {
     var url = BASE_URL + "get_thumbs/" + channel_id;
     var retval = [];
 
     $http.get(url)
     .success(function(data, status, headers, config) {
-    	parse_thumbnails(data);
-    	console.log(data);
-        retval = data;
+    	data = parse_thumbnails(data);
+    	$scope.thumbnails = data;
+        //retval = data;
     })
     .error(function(data, status, headers, config) {
-        retval = []
+    	$scope.thumbnails = [];
+        //retval = []
     });
-    $log.info("Returning:" + retval);
-    return retval;
+    //return retval;
 };
 
 angular.module('starter.services', [])
@@ -66,8 +66,8 @@ angular.module('starter.services', [])
 
 .factory('Thumbnails', function ($http, $log) {
     return {
-    	get: function(channel_id) {
-        	return get_thumbnails($http, $log, channel_id);
+    	get: function(channel_id, $scope) {
+        	return get_thumbnails($http, $log, $scope, channel_id);
     	}
     }
 })
