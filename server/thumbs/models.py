@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.conf import settings
 import os
 from datetime import timedelta
-from moviepy.editor import VideoFileClip, concatenate_videoclips
+#from moviepy.editor import VideoFileClip, concatenate_videoclips
 
 
 # Create your models here.
@@ -50,7 +50,8 @@ class BaseVideo(models.Model):
     @property
     def movie(self):
         """return a moviepy clip object"""
-        return VideoFileClip(self.filename.path)
+        pass
+        #return VideoFileClip(self.filename.path)
 
     @property
     def duration(self):
@@ -93,15 +94,16 @@ class Clip(BaseVideo):
         delta_start = (start_time - sources[0].start_time).seconds
         delta_end = (sources[-1].end_time - end_time).seconds
 
-        clip_video = concatenate_videoclips([s.movie for s in sources])
-        clip_video = clip_video.subclip(delta_start, clip_video.duration - delta_end)
+        #clip_video = concatenate_videoclips([s.movie for s in sources])
+        #clip_video = clip_video.subclip(delta_start, clip_video.duration - delta_end)
 
         filename = '%s_%s_%s.webm' % (channel.name, start_time.strftime("%Y%m%d%H%M%S"),
                                       end_time.strftime("%Y%m%d%H%M%S"))
 
-        clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename))
-        clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename)
-        return clip
+        #clip_video.write_videofile(os.path.join(settings.MEDIA_ROOT, filename))
+        #clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename)
+        #return clip
+        return None
 
 
 
