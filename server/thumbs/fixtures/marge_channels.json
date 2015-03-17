@@ -1,0 +1,1 @@
+[{"fields": {"device_slot": "1", "name": "Cinecanal", "device_name": "Marge"}, "model": "thumbs.channel", "pk": 1}, {"fields": {"device_slot": "2", "name": "Discovery", "device_name": "Marge"}, "model": "thumbs.channel", "pk": 2}, {"fields": {"device_slot": "3", "name": "Histoy", "device_name": "Marge"}, "model": "thumbs.channel", "pk": 3}]

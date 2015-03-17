@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
-from thumbs.models import Thumb, Channel
+from thumbs.models import Thumb, Channel, Origin
+from django.conf import settings
 
 from inotify import watcher
 import inotify
@@ -45,7 +46,8 @@ class Command(BaseCommand):
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
 
-        finalpath = os.path.join(chan.base_dir(), fdate, ftime[:-2])
+        Origin.objects.create(channel=chan, start_time=file_dtime, filename=os.path.join(settings.SOURCE, file_name))
+        finalpath = os.path.join(settings.THUMB_DIR, str(chan.id), fdate, ftime[:-2]) + "/"
 
         try:
             os.makedirs(finalpath)
@@ -62,7 +64,7 @@ class Command(BaseCommand):
         thumbs_wd = w.add(finalpath, inotify.IN_CLOSE_WRITE)
 
         # Call ffmpeg in other process with our pipe as source.
-        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
+        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-s', '320x240', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
 
         with open(srcpath, 'rb') as sourcef:
 
