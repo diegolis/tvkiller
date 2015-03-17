@@ -33,7 +33,8 @@ def main(source, ffmpeg_bin=None):
             # The inotify.decode_mask function returns a list of the
             # names of the bits set in an event's mask.  This is very
             # handy for debugging.
-            subprocess32.Popen(["/home/infoxel/envs/hannibal/bin/python", "/home/infoxel/tvkiller/server/manage.py", "gen_thumb", evt.fullpath, ffmpeg_bin])
+            if not ".listing" in evt.fullpath:
+                subprocess32.Popen(["/home/infoxel/envs/hannibal/bin/python", "/home/infoxel/tvkiller/server/manage.py", "gen_thumb", evt.fullpath, ffmpeg_bin])
 
 
 class Command(BaseCommand):

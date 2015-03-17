@@ -7,6 +7,7 @@ import inotify
 import os
 import re
 import datetime
+from django.utils import timezone
 import fcntl
 import subprocess32
 import threading
@@ -14,7 +15,8 @@ import threading
 def add_thumb(channel, base_dtime, path):
     """ Process the path of a newly added thumb and add the corresponding objecto to the db. """
     offset, _, _ = os.path.basename(path).rpartition('.')
-    dtime = base_dtime + datetime.timedelta(seconds=int(offset) - 1)
+    dtime = base_dtime + timezone.timedelta(seconds=int(offset) - 1)
+
     Thumb.objects.create(channel=channel, datetime=dtime, filename=path)
 
 class Command(BaseCommand):
@@ -42,12 +44,14 @@ class Command(BaseCommand):
         # If channel doesn't exist, let the command die
         chan = Channel.objects.get(device_name=fdevice, device_slot=fcamera)
 
-        file_dtime = datetime.datetime(int(fdate[:4]), 
+        naive = datetime.datetime(int(fdate[:4]), 
                                           int(fdate[4:6]), 
                                           int(fdate[6:]), 
                                           int(ftime[:2]), 
                                           int(ftime[2:4]),
                                           int(ftime[4:]))
+        import pytz
+        file_dtime = pytz.timezone("America/Argentina/Cordoba").localize(naive, is_dst=None)
 
         Origin.objects.create(channel=chan, start_time=file_dtime, filename=os.path.join(settings.SOURCE, file_name))
         finalpath = os.path.join(settings.THUMB_DIR, str(chan.id), fdate, ftime[:-2]) + "/"
@@ -55,6 +59,7 @@ class Command(BaseCommand):
         try:
             os.makedirs(finalpath)
         except:
+            print "Probably folder %s exists" % finalpath
             pass    # probably folders exists.
 
         # Use an anonymous pipe to pass data to ffmpeg, so that it blocks waiting for more file data

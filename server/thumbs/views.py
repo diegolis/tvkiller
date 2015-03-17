@@ -6,14 +6,16 @@ from datetime import timedelta
 from datetime import datetime
 from django.utils import timezone
 
-TIME_GAP = timedelta(minutes=10)
+TIME_GAP = timedelta(minutes=0)
 
 def get_thumbs(request, channel_id):
     """ Returns a json with the last N frames """
     data = []
     channel = Channel.objects.get(id=channel_id)
     thumbs = Thumb.objects.filter(channel=channel,
-                datetime__lt=timezone.now() - TIME_GAP).order_by("-datetime")[:120]
+                datetime__lt=timezone.now() - TIME_GAP).order_by("datetime")
+    # negative index is not supported
+    thumbs = thumbs[thumbs.count() - 120:]
 
     for thumb in thumbs.iterator():
         data.append({
