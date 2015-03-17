@@ -2,13 +2,14 @@
 
 from __future__ import print_function
 
+from django.core.management.base import BaseCommand, CommandError
 from inotify import watcher
 import inotify
 import sys
 import traceback
 import subprocess32
 
-import local_settings
+from django.conf import settings
 
 def main(source, ffmpeg_bin=None):
 
@@ -34,18 +35,22 @@ def main(source, ffmpeg_bin=None):
             # handy for debugging.
             subprocess32.Popen(["python", "manage.py", "gen_thumb", evt.fullpath, ffmpeg_bin])
 
-if __name__=="__main__":
 
-    try:
-        ffmpeg = local_settings.FFMPEG
-    except:
-        ffmpeg = 'ffmpeg' #try ffmpeg_bin installed
+class Command(BaseCommand):
 
-    try:
-        main(local_settings.SOURCE, 
-            ffmpeg)
-    except KeyboardInterrupt:
-        print("Shutdown requested...exiting.")
-    except Exception:
-        traceback.print_exc(file=sys.stdout)
-    sys.exit(0)
+    def handle(self, *args, **options):
+
+        try:
+            ffmpeg = settings.FFMPEG
+        except:
+            ffmpeg = 'ffmpeg' #try ffmpeg_bin installed
+    
+        try:
+            main(settings.SOURCE, 
+                ffmpeg)
+        except KeyboardInterrupt:
+            print("Shutdown requested...exiting.")
+        except Exception:
+            traceback.print_exc(file=sys.stdout)
+        sys.exit(0)
+    
