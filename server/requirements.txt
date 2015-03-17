@@ -9,3 +9,6 @@ python-inotify==0.6-test
 subprocess32==3.2.6
 #tqdm==1.0
 wsgiref==0.1.2
+django-model-utils==2.2
+hashids==1.0.3
+django-sendfile==0.3.6
