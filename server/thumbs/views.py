@@ -4,6 +4,7 @@ from thumbs.models import Channel, Thumb, Clip
 from sendfile import sendfile
 from datetime import timedelta
 from datetime import datetime
+from django.utils import timezone
 
 TIME_GAP = timedelta(minutes=10)
 
@@ -12,7 +13,7 @@ def get_thumbs(request, channel_id):
     data = []
     channel = Channel.objects.get(id=channel_id)
     thumbs = Thumb.objects.filter(channel=channel,
-                datetime__lt=datetime.now() - TIME_GAP).order_by("-datetime")[:120]
+                datetime__lt=timezone.now() - TIME_GAP).order_by("-datetime")[:120]
 
     for thumb in thumbs.iterator():
         data.append({

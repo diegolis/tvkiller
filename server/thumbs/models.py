@@ -63,7 +63,7 @@ class Clip(BaseVideo):
     origin videos"""
 
     STATUS = Choices('in_process', 'done')
-    hashid = models.CharField(max_length=100, unique=True, editable=False)
+    hashid = models.CharField(max_length=255, unique=True, editable=False)
     status = StatusField()
 
 
@@ -94,7 +94,7 @@ class Clip(BaseVideo):
         if not sources:
             return None
 
-        filename = '%s_%s_%s.webm' % (slugify(channel.name), start_time.strftime("%Y%m%d%H%M%S"),
+        filename = '%s_%s_%s.mp4' % (slugify(channel.name), start_time.strftime("%Y%m%d%H%M%S"),
                                       end_time.strftime("%Y%m%d%H%M%S"))
 
         clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename, status=Clip.STATUS.in_process)

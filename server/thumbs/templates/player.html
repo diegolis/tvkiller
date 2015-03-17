@@ -1,28 +1,98 @@
-<!DOCTYPE html>
 <html>
 <head>
   <title>TvKiller - Clip from {{ clip.channel }} at {{ clip.start_time }} </title>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <style type="text/css">
+        div {
+            color: #222;
+            cursor: auto;
+            display: block;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 14px;
+        }
 
+        #imagen img {
+            background: #ffffff;
+            height: 320px;
+            width: 470px;
+        }
 
-<link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
-<script src="//vjs.zencdn.net/4.12/video.js"></script>
+        #mediaspace_logo {
+            display: none;
+        }
 
+        #info-producto {
+            padding: 10px;
+        }
+
+        .info-producto--nombre {
+            float: left;
+            font-weight: bold;
+            overflow: hidden;
+            width: 400px;
+        }
+
+        .info-producto--marca {
+            float: left;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .info-producto--download-icon {
+            color: #069;
+            float: right;
+            margin-right: 5px;
+            margin-top: -24px;
+            text-align: right;
+            width: 70px;
+        }
+    </style>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://infoad.com.ar/static/js/player/jwplayer.js"></script>
 </head>
 <body>
+    <!-- Image -->
+    <div id="imagen"></div>
+    <!-- Media -->
+    <div id='mediaspace'></div>
+    <!-- Info -->
+    <div id="info-producto"></div>
+
+    <script>
+
+
+        function _setup_jwplayer(path, filetype) {
+            jwplayer("mediaspace").setup({
+                file: path,
+                type: filetype,
+                provider: "video",
+                /* Carga la duracion del video : (Magia)
+                 Sin esta linea los videos duran, un numero al azar mayor que
+                 la duracion real del video */
+                autostart: true,
+                analytics: {
+                    enabled: false
+                },
+                width: 470,
+                height: 320
+            });
+        }
+    </script>
+
 
 {% if clip.status == clip.STATUS.done %}
 
-  <video id="" class="video-js vjs-default-skin" controls preload="none" width="{{ clip.movie.size.0 }}" height="{{ clip.movie.size.1 }}" poster="" data-setup='{"controls": true, "autoplay": false}' >
-        <source src="{{ clip.filename.url }}" type='video/webm' />
-    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-  </video>
+    <script>
+       _setup_jwplayer("{{clip.filename.url}}", "mp4");
+    </script>
 
-  {% else %}
+{% else %}
 
-<p>
-    el video esta siendo procesado</p>
+    <p>El video está siendo procesado.</p>
 
-  {% endif %}
+{% endif %}
+
 
 
 </body>

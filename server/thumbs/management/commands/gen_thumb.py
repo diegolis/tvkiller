@@ -31,6 +31,9 @@ class Command(BaseCommand):
         #file_path = srcpath[:srcpath.rindex('/')+1]
 
         searchObj = re.search(r'(.*)_(.*)_(.*)_(.*)', file_name, re.M|re.I)
+        if not searchObj:
+            return
+
         fdevice = searchObj.group(1)
         fcamera = searchObj.group(2)
         fdate = searchObj.group(3)
@@ -64,7 +67,7 @@ class Command(BaseCommand):
         thumbs_wd = w.add(finalpath, inotify.IN_CLOSE_WRITE)
 
         # Call ffmpeg in other process with our pipe as source.
-        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-s', '320x240', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
+        ffmpeg_proc = subprocess32.Popen([ffmpeg_bin, '-i', "pipe:0", '-f', 'image2', '-s', '240x180', '-vf', 'fps=fps=1', os.path.join(finalpath, '%03d.jpg')], stdin=pipe_read)
 
         with open(srcpath, 'rb') as sourcef:
 
