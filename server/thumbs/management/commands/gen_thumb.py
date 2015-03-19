@@ -44,14 +44,16 @@ class Command(BaseCommand):
         # If channel doesn't exist, let the command die
         chan = Channel.objects.get(device_name=fdevice, device_slot=fcamera)
 
-        naive = datetime.datetime(int(fdate[:4]), 
+        import pytz
+        cordoba = pytz.timezone("America/Argentina/Cordoba")
+        file_dtime = datetime.datetime(int(fdate[:4]), 
                                           int(fdate[4:6]), 
                                           int(fdate[6:]), 
                                           int(ftime[:2]), 
                                           int(ftime[2:4]),
-                                          int(ftime[4:]))
-        import pytz
-        file_dtime = pytz.timezone("America/Argentina/Cordoba").localize(naive, is_dst=None)
+                                          int(ftime[4:]),
+                                          tzinfo=cordoba
+                                            )
 
         Origin.objects.create(channel=chan, start_time=file_dtime, filename=os.path.join(settings.SOURCE, file_name))
         finalpath = os.path.join(settings.THUMB_DIR, str(chan.id), fdate, ftime[:-2]) + "/"

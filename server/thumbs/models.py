@@ -99,7 +99,7 @@ class Clip(BaseVideo):
 
         clip = Clip.objects.create(channel=channel, start_time=start_time, end_time=end_time, filename=filename, status=Clip.STATUS.in_process)
 
-        create_videoclip(clip.id, sources, start_time.strftime('%Y-%m-%dT%H:%M:%S%Z'), end_time.strftime('%Y-%m-%dT%H:%M:%S%Z'), filename)
+        create_videoclip(clip.id, sources, start_time, end_time, filename)
         return clip
 
 

@@ -7,8 +7,8 @@ import os.path
 #@task()
 def create_videoclip(clip_id, sources, start_time, end_time, filename):
     from thumbs.models import Clip, Origin
-    start_time = timezone.make_aware(datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%S%Z'), timezone.get_default_timezone())
-    end_time = timezone.make_aware(datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%S%Z'), timezone.get_default_timezone())
+    #start_time = timezone.make_aware(datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%S%Z'), timezone.get_default_timezone())
+    #end_time = timezone.make_aware(datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%S%Z'), timezone.get_default_timezone())
 
     clip = Clip.objects.get(id=clip_id)
     sources = list(Origin.objects.filter(id__in=sources).order_by('start_time'))
